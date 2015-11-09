@@ -69,8 +69,8 @@ OneSpeakPlugin.prototype.setApplicationIconBadgeNumber = function(successCallbac
 if(!window.plugins) {
     window.plugins = {};
 }
-if (!window.plugins.pushNotification) {
-    window.plugins.pushNotification = new OneSpeakPlugin();
+if (!window.plugins.OneSpeakPlugin) {
+    window.plugins.OneSpeakPlugin = new OneSpeakPlugin();
 }
 
 if (typeof module != 'undefined' && module.exports) {
