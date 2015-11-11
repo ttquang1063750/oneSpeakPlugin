@@ -17,19 +17,17 @@
     </js-module>
 
     <platform name="ios">
-
+        <framework src="src/ios/sdk/OneSpeak.framework" custom="true"/>
         <config-file target="config.xml" parent="/*">
             <feature name="OneSpeakPlugin">
                 <param name="ios-package" value="OneSpeakPlugin"/>
             </feature>
         </config-file>
-
-        <source-file src="src/ios/AppDelegate+notification.m"/>
+        <header-file src="src/ios/OneSpeakPlugin.h"/>
         <source-file src="src/ios/OneSpeakPlugin.m"/>
 
-        <header-file src="src/ios/AppDelegate+notification.h"/>
-        <header-file src="src/ios/OneSpeakPlugin.h"/>
-
+        <source-file src="src/ios/sdk/OneSpeak.plist"/>
+        <source-file src="src/ios/sdk/OneSpeakPlugin.plist"/>
     </platform>
 
     <platform name="android">

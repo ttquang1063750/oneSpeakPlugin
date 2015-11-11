@@ -1,280 +1,297 @@
-/*
- Copyright 2009-2011 Urban Airship Inc. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
-
- 1. Redistributions of source code must retain the above copyright notice, this
- list of conditions and the following disclaimer.
-
- 2. Redistributions in binaryform must reproduce the above copyright notice,
- this list of conditions and the following disclaimer in the documentation
- and/or other materials provided withthe distribution.
-
- THIS SOFTWARE IS PROVIDED BY THE URBAN AIRSHIP INC``AS IS'' AND ANY EXPRESS OR
- IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- EVENT SHALL URBAN AIRSHIP INC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
+//  OneSpeakPlugin.m
+//  CouponApp
+//
+//  Created by fujise on 2013/05/23.
+//
+//
 
 #import "OneSpeakPlugin.h"
+#import <CommonCrypto/CommonDigest.h>
+
+#define kUUIDKey                @"uuid"
+#define kCustomDataKey          @"customdata"
+#define kHTTPStatusCodeOK       200
+#define kMD5DigestLength        16
+
+#define kApiColumnKey           @"key"
+#define kApiColumnDate          @"date"
+#define kApiColumnRequest       @"request"
+#define kApiColumnType          @"type"
+#define kApiColumnKeyData       @"key_data"
+#define kApiColumnCustomData    @"custom_data"
+#define kApiColumnStatus        @"status"
+#define kApiColumnErrors        @"errors"
+
+#define kServerUrlCustomData    @"/api/device/custom/update"
+
+#define kOneSpeakPlist          @"OneSpeak"
+#define kOneSpeakPluginPlist    @"OneSpeakPlugin"
+#define kOneSpeakKeyAccount     @"AccountIdentifier"
+#define kOneSpeakApiServerURL   @"PluginAPIBaseURL"
+#define kOneSpeakApiKey         @"PluginAPIKey"
+
+
+@interface OneSpeakPlugin ()<NSURLConnectionDataDelegate>{
+    NSURLConnection* _connection;
+    NSMutableData* _data;
+    CDVInvokedUrlCommand* _updCmmand;
+    int _statusCode;
+}
+
+@end
 
 @implementation OneSpeakPlugin
 
-@synthesize notificationMessage;
-@synthesize isInline;
-
-@synthesize callbackId;
-@synthesize notificationCallbackId;
-@synthesize callback;
-
-
-- (void)unregister:(CDVInvokedUrlCommand*)command;
-{
-	self.callbackId = command.callbackId;
-
-    [[UIApplication sharedApplication] unregisterForRemoteNotifications];
-    [self successWithMessage:@"unregistered"];
+#pragma mark - LifeCycle Methods
+- (void) dealloc {
+    if (_data != nil) {
+        [_data release];
+        _data = nil;
+    }
+    
+    if (_connection != nil) {
+        [_connection release];
+        _connection = nil;
+    }
+    
+    if (_updCmmand != nil) {
+        [_updCmmand release];
+        _updCmmand = nil;
+    }
+    
+    [super dealloc];
 }
 
-- (void)register:(CDVInvokedUrlCommand*)command;
+
+#pragma mark - Public Instance Methods
+- (void)loadCustomData:(CDVInvokedUrlCommand*)command {
+    NSString* customData = [OneSpeakPlugin loadCustomData];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:customData];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+- (void)customDataUpdateWithCommand:(CDVInvokedUrlCommand*)command {
+    if (_updCmmand != nil) {
+        [_updCmmand release];
+    }
+    _updCmmand = [command retain];
+    
+    NSString* path = [[NSBundle mainBundle]pathForResource:kOneSpeakPlist ofType:@"plist"];
+    NSDictionary* onespeakPlist = [NSDictionary dictionaryWithContentsOfFile:path];
+    
+    NSString* pluginPath = [[NSBundle mainBundle]pathForResource:kOneSpeakPluginPlist ofType:@"plist"];
+    NSDictionary* onespeakPluginPlist = [NSDictionary dictionaryWithContentsOfFile:pluginPath];
+    
+    
+    NSString* url = [NSString stringWithFormat:@"%@%@%@",[onespeakPluginPlist objectForKey:kOneSpeakApiServerURL],[onespeakPlist objectForKey:kOneSpeakKeyAccount],kServerUrlCustomData];
+    
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [req setHTTPMethod:@"POST"];
+    
+    NSString* params = [self createParameterWithDictionary:onespeakPluginPlist];
+    
+    [req setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    if (_connection != nil) {
+        [_connection release];
+        _connection = nil;
+    }
+    
+    _connection = [[NSURLConnection connectionWithRequest:req delegate:self] retain];
+    
+}
+
+#pragma mark - Private Instance Methods
+- (NSString*) createParameterWithDictionary:(NSDictionary*)dictionary {
+    NSString* type = [_updCmmand.arguments objectAtIndex:0];
+    NSString* customDataString = [_updCmmand.arguments objectAtIndex:1];
+    
+    NSDictionary* customData = [NSJSONSerialization JSONObjectWithData:[customDataString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    
+    NSString* requestTime = [self getCurrentTime];
+    
+    NSMutableDictionary* req = [[NSMutableDictionary alloc]init];
+    [req setValue:type forKey:kApiColumnType];
+    [req setValue:[NSDictionary dictionaryWithObject:[OneSpeakPlugin loadStringForKey:kUUIDKey] forKey:kUUIDKey] forKey:kApiColumnKeyData];
+    [req setValue:customData forKey:kApiColumnCustomData];
+    
+    NSData* data = [NSJSONSerialization dataWithJSONObject:req options:NSJSONWritingPrettyPrinted error:nil];
+    [req release];
+    
+    NSString* request = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSString* apiKey = [self createKeyFromRequestTime:requestTime andRequestString:request andApiKey:[dictionary objectForKey:kOneSpeakApiKey]];
+    
+    NSString* result = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@",kApiColumnKey,apiKey,kApiColumnDate,requestTime,kApiColumnRequest,request];
+    [request release];
+    return result;
+}
+
+- (NSString*) createKeyFromRequestTime:(NSString*)requestTime andRequestString:(NSString*)request andApiKey:(NSString*)apiKey{
+    return [OneSpeakPlugin createMD5DigestFromString:[NSString stringWithFormat:@"%@%@%@",requestTime,request,apiKey]];
+}
+
+- (NSString*) getCurrentTime
 {
-	self.callbackId = command.callbackId;
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
+    NSString* result = [formatter stringFromDate:[NSDate date]];
+    [formatter release];
+    return result;
+}
 
-    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-		UIUserNotificationType UserNotificationTypes = UIUserNotificationTypeNone;
-#endif
-    UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeNone;
-
-    id badgeArg = [options objectForKey:@"badge"];
-    id soundArg = [options objectForKey:@"sound"];
-    id alertArg = [options objectForKey:@"alert"];
-
-    if ([badgeArg isKindOfClass:[NSString class]])
-    {
-        if ([badgeArg isEqualToString:@"true"]) {
-            notificationTypes |= UIRemoteNotificationTypeBadge;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-            UserNotificationTypes |= UIUserNotificationTypeBadge;
-#endif
-        }
-    }
-    else if ([badgeArg boolValue]) {
-        notificationTypes |= UIRemoteNotificationTypeBadge;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-        UserNotificationTypes |= UIUserNotificationTypeBadge;
-#endif
-    }
-
-    if ([soundArg isKindOfClass:[NSString class]])
-    {
-        if ([soundArg isEqualToString:@"true"]) {
-            notificationTypes |= UIRemoteNotificationTypeSound;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-            UserNotificationTypes |= UIUserNotificationTypeSound;
-#endif
-    }
-    }
-    else if ([soundArg boolValue]) {
-        notificationTypes |= UIRemoteNotificationTypeSound;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-        UserNotificationTypes |= UIUserNotificationTypeSound;
-#endif
-    }
-
-    if ([alertArg isKindOfClass:[NSString class]])
-    {
-        if ([alertArg isEqualToString:@"true"]) {
-            notificationTypes |= UIRemoteNotificationTypeAlert;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-            UserNotificationTypes |= UIUserNotificationTypeAlert;
-#endif
-    }
-    }
-    else if ([alertArg boolValue]) {
-        notificationTypes |= UIRemoteNotificationTypeAlert;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-        UserNotificationTypes |= UIUserNotificationTypeAlert;
-#endif
-    }
-
-    notificationTypes |= UIRemoteNotificationTypeNewsstandContentAvailability;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-    UserNotificationTypes |= UIUserNotificationActivationModeBackground;
-#endif
-
-    self.callback = [options objectForKey:@"ecb"];
-
-    if (notificationTypes == UIRemoteNotificationTypeNone)
-        NSLog(@"OneSpeakPlugin.register: Push notification type is set to none");
-
-    isInline = NO;
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-    if ([[UIApplication sharedApplication]respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UserNotificationTypes categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
+- (void) sendResultWithCode:(int)code message:(NSString*)message {
+    if (code == kHTTPStatusCodeOK) {
+        // 正常終了
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:_updCmmand.callbackId];
     } else {
-    		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
-    }
-#else
-		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
-#endif
-
-	if (notificationMessage)			// if there is a pending startup notification
-		[self notificationReceived];	// go ahead and process it
-}
-
-/*
-- (void)isEnabled:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
-    UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-    NSString *jsStatement = [NSString stringWithFormat:@"navigator.OneSpeakPlugin.isEnabled = %d;", type != UIRemoteNotificationTypeNone];
-    NSLog(@"JSStatement %@",jsStatement);
-}
-*/
-
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
-    NSMutableDictionary *results = [NSMutableDictionary dictionary];
-    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]
-                        stringByReplacingOccurrencesOfString:@">" withString:@""]
-                       stringByReplacingOccurrencesOfString: @" " withString: @""];
-    [results setValue:token forKey:@"deviceToken"];
-
-    #if !TARGET_IPHONE_SIMULATOR
-        // Get Bundle Info for Remote Registration (handy if you have more than one app)
-        [results setValue:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"] forKey:@"appName"];
-        [results setValue:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
-
-        // Check what Notifications the user has turned on.  We registered for all three, but they may have manually disabled some or all of them.
-        NSUInteger rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-
-        // Set the defaults to disabled unless we find otherwise...
-        NSString *pushBadge = @"disabled";
-        NSString *pushAlert = @"disabled";
-        NSString *pushSound = @"disabled";
-
-        // Check what Registered Types are turned on. This is a bit tricky since if two are enabled, and one is off, it will return a number 2... not telling you which
-        // one is actually disabled. So we are literally checking to see if rnTypes matches what is turned on, instead of by number. The "tricky" part is that the
-        // single notification types will only match if they are the ONLY one enabled.  Likewise, when we are checking for a pair of notifications, it will only be
-        // true if those two notifications are on.  This is why the code is written this way
-        if(rntypes & UIRemoteNotificationTypeBadge){
-            pushBadge = @"enabled";
-        }
-        if(rntypes & UIRemoteNotificationTypeAlert) {
-            pushAlert = @"enabled";
-        }
-        if(rntypes & UIRemoteNotificationTypeSound) {
-            pushSound = @"enabled";
-        }
-
-        [results setValue:pushBadge forKey:@"pushBadge"];
-        [results setValue:pushAlert forKey:@"pushAlert"];
-        [results setValue:pushSound forKey:@"pushSound"];
-
-        // Get the users Device Model, Display Name, Token & Version Number
-        UIDevice *dev = [UIDevice currentDevice];
-        [results setValue:dev.name forKey:@"deviceName"];
-        [results setValue:dev.model forKey:@"deviceModel"];
-        [results setValue:dev.systemVersion forKey:@"deviceSystemVersion"];
-
-		[self successWithMessage:[NSString stringWithFormat:@"%@", token]];
-    #endif
-}
-
-- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-	[self failWithMessage:@"" withError:error];
-}
-
-- (void)notificationReceived {
-    NSLog(@"Notification received");
-
-    if (notificationMessage && self.callback)
-    {
-        NSMutableString *jsonStr = [NSMutableString stringWithString:@"{"];
-
-        [self parseDictionary:notificationMessage intoJSON:jsonStr];
-
-        if (isInline)
-        {
-            [jsonStr appendFormat:@"foreground:\"%d\"", 1];
-            isInline = NO;
-        }
-		else
-            [jsonStr appendFormat:@"foreground:\"%d\"", 0];
-
-        [jsonStr appendString:@"}"];
-
-        NSLog(@"Msg: %@", jsonStr);
-
-        NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
-        [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-
-        self.notificationMessage = nil;
-    }
-}
-
-// reentrant method to drill down and surface all sub-dictionaries' key/value pairs into the top level json
--(void)parseDictionary:(NSDictionary *)inDictionary intoJSON:(NSMutableString *)jsonString
-{
-    NSArray         *keys = [inDictionary allKeys];
-    NSString        *key;
-
-    for (key in keys)
-    {
-        id thisObject = [inDictionary objectForKey:key];
-
-        if ([thisObject isKindOfClass:[NSDictionary class]])
-            [self parseDictionary:thisObject intoJSON:jsonString];
-        else if ([thisObject isKindOfClass:[NSString class]])
-             [jsonString appendFormat:@"\"%@\":\"%@\",",
-              key,
-              [[[[inDictionary objectForKey:key]
-                stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]
-                 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]
-                 stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"]];
-        else {
-            [jsonString appendFormat:@"\"%@\":\"%@\",", key, [inDictionary objectForKey:key]];
+        // 異常終了
+        if ([OneSpeakPlugin nullOrEmptyString:message]) {
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:code] callbackId:_updCmmand.callbackId];
+        } else {
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message] callbackId:_updCmmand.callbackId];
         }
     }
 }
 
-- (void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand *)command {
 
-    self.callbackId = command.callbackId;
-
-    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
-    int badge = [[options objectForKey:@"badge"] intValue] ?: 0;
-
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badge];
-
-    [self successWithMessage:[NSString stringWithFormat:@"app badge count set to %d", badge]];
+#pragma mark - NSURLConnectionDataDelegate
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([response isMemberOfClass:[NSHTTPURLResponse class]]) {
+        // ステータスコードを取得する
+        NSHTTPURLResponse* res = (NSHTTPURLResponse *)response;
+        _statusCode = [res statusCode];
+    } else {
+        // ここに入ることは無い
+    }
+    
 }
--(void)successWithMessage:(NSString *)message
-{
-    if (self.callbackId != nil)
-    {
-        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
-        [self.commandDelegate sendPluginResult:commandResult callbackId:self.callbackId];
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    if (_data == nil) {
+        // 初回受信時はインスタンスを生成する
+		_data = [[NSMutableData alloc] initWithData:data];
+	}else {
+		// データを追加する
+		[_data appendData:data];
+	}
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if (_statusCode != kHTTPStatusCodeOK) {
+        // エラー処理
+        [self sendResultWithCode:_statusCode message:nil];
+    } else {
+        NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingMutableContainers error:nil];
+        NSNumber* status = [json objectForKey:kApiColumnStatus];
+        if ([status intValue] != kHTTPStatusCodeOK) {
+            NSArray* errors = [json objectForKey:kApiColumnErrors];
+            if (errors != nil&&[errors count] > 0) {
+                [self sendResultWithCode:[status intValue] message:[errors objectAtIndex:0]];
+            } else {
+                [self sendResultWithCode:[status intValue] message:nil];
+            }
+            return;
+        }
+        // 正常終了
+        [self sendResultWithCode:kHTTPStatusCodeOK message:nil];
+    }
+    if (_data != nil) {
+        [_data release];
+        _data = nil;
     }
 }
 
--(void)failWithMessage:(NSString *)message withError:(NSError *)error
-{
-    NSString        *errorMessage = (error) ? [NSString stringWithFormat:@"%@ - %@", message, [error localizedDescription]] : message;
-    CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+    if (_data != nil) {
+        [_data release];
+        _data = nil;
+    }
+    // エラー処理
+    [self sendResultWithCode:[error code] message:nil];
+}
 
-    [self.commandDelegate sendPluginResult:commandResult callbackId:self.callbackId];
+#pragma mark - Public Class Methods
++(NSString*) loadCustomData {
+    NSString* customData = [OneSpeakPlugin loadStringForKey:kCustomDataKey];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:kCustomDataKey];
+    [defaults synchronize];
+    return customData;
+}
+
++(void) checkUUID {
+    // UUIDが既に登録されているか確認を行う
+    NSString* uuid = [self loadStringForKey:kUUIDKey];
+    if ([self nullOrEmptyString:uuid]) {
+        // UUIDがまだ登録されていない場合は生成する
+        [self saveString:[self createUUID] forKey:kUUIDKey];
+        //コンソールにUUIDを出力
+        uuid = [self loadStringForKey:kUUIDKey];
+        NSLog(@"uuid of device is %@", uuid);
+        
+    } else {
+        //コンソールにUUIDを出力
+        NSLog(@"uuid of device is %@", uuid);
+    }
+}
+
++ (NSMutableDictionary*) createUUIDCustomData {
+    // カスタムデータとしてUUIDを設定する
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setObject:[self loadStringForKey:kUUIDKey] forKey:kUUIDKey];
+    return [dic autorelease];
+}
+
++ (void) storePushedCustomData:(NSString*)data {
+    [self saveString:data forKey:kCustomDataKey];
+}
+
+
+#pragma mark - Private Class Methods
++ (BOOL)nullOrEmptyString:(NSString *)string
+{
+    return string == nil || [string isEqualToString:@""];
+}
+
++ (NSString*)createUUID
+{
+    // iOS5に対応するためにCFUUIDCreateを使用する。(NSUUIDはiOS6以降)
+    
+    // UUIDの生成
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    
+    // 文字列に変換する
+    NSString *uuidString = (NSString*)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+    
+    CFRelease(uuid);
+    
+    return [uuidString autorelease];
+}
+
++ (NSString*) loadStringForKey:(NSString*)key {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults stringForKey:key];
+}
+
++(void)saveString:(NSString*)string forKey:(NSString*)key
+{
+    NSUserDefaults* def = [NSUserDefaults standardUserDefaults];
+    [def setValue:string forKey:key];
+    [def synchronize];
+}
+
++ (NSString *)createMD5DigestFromString:(NSString*) string {
+	const char *cStr = [string UTF8String];
+	unsigned char digest[kMD5DigestLength];
+	CC_MD5(cStr, strlen(cStr), digest);
+	char md5string[kMD5DigestLength*2];
+	int i;
+	for(i=0; i<kMD5DigestLength; i++) {
+		sprintf(md5string+i*2, "%02X", digest[i]);
+	}
+	return [[NSString stringWithCString:md5string encoding:NSUTF8StringEncoding] lowercaseString];
 }
 
 @end

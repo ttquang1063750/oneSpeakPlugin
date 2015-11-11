@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AccountIdentifier</key>
+	<string>matsuyafoods</string>
+	<key>AccountAuthenticationCode</key>
+	<string>9a82e399c002e98ede8f92eada7d5470</string>
+	<key>RemoteNotificationAlertEnabled</key>
+	<true/>
+	<key>RemoteNotificationSoundEnabled</key>
+	<true/>
+	<key>RemoteNotificationBadgeEnabled</key>
+	<false/>
+	<key>SpotNotificationEnabled</key>
+	<false/>
+	<key>NotifyRepeatEnabled</key>
+	<false/>
+	<key>NotifyMultiEnabled</key>
+	<false/>
+	<key>LocationTrackingEnabled</key>
+	<false/>
+	<key>DefaultNotificationAlertEnabled</key>
+	<true/>
+	<key>DefaultNotificationAlertTitle</key>
+	<string>松屋フーズ</string>
+	<key>EffectMeasurementEnabled</key>
+	<true/>
+	<key>RealtimeEffectMeasurement</key>
+	<true/>
+	<key>ConnectionIdentifier</key>
+	<string>www5</string>
+</dict>
+</plist>

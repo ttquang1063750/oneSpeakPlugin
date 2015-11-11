@@ -1,67 +1,14 @@
-var OneSpeakPlugin = function() {
-};
-
-
-// Call this to register for push notifications. Content of [options] depends on whether we are working with APNS (iOS) or GCM (Android)
-OneSpeakPlugin.prototype.register = function(successCallback, errorCallback, options) {
-    if (errorCallback == null) { errorCallback = function() {}}
-
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.register failure: failure parameter not a function");
-        return
-    }
-
-    if (typeof successCallback != "function") {
-        console.log("PushNotification.register failure: success callback parameter must be a function");
-        return
-    }
-
-    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "register", [options]);
-};
-
-// Call this to unregister for push notifications
-OneSpeakPlugin.prototype.unregister = function(successCallback, errorCallback, options) {
-    if (errorCallback == null) { errorCallback = function() {}}
-
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.unregister failure: failure parameter not a function");
-        return
-    }
-
-    if (typeof successCallback != "function") {
-        console.log("PushNotification.unregister failure: success callback parameter must be a function");
-        return
-    }
-
-    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "unregister", [options]);
-};
+var OneSpeakPlugin = function() {};
 
 // Call this if you want to show toast notification on WP8
-OneSpeakPlugin.prototype.showToastNotification = function (successCallback, errorCallback, options) {
+OneSpeakPlugin.prototype.loadCustomData = function (successCallback, errorCallback, array_options) {
     if (errorCallback == null) { errorCallback = function () { } }
-
-    if (typeof errorCallback != "function") {
-        console.log("PushNotification.register failure: failure parameter not a function");
-        return
-    }
-
-    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "showToastNotification", [options]);
+    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "loadCustomData", array_options);
 };
 // Call this to set the application icon badge
-OneSpeakPlugin.prototype.setApplicationIconBadgeNumber = function(successCallback, errorCallback, badge) {
+OneSpeakPlugin.prototype.customDataUpdateWithCommand = function(successCallback, errorCallback, array_options) {
     if (errorCallback == null) { errorCallback = function() {}}
-
-    if (typeof errorCallback != "function")  {
-        console.log("PushNotification.setApplicationIconBadgeNumber failure: failure parameter not a function");
-        return
-    }
-
-    if (typeof successCallback != "function") {
-        console.log("PushNotification.setApplicationIconBadgeNumber failure: success callback parameter must be a function");
-        return
-    }
-
-    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "setApplicationIconBadgeNumber", [{badge: badge}]);
+    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "customDataUpdateWithCommand", array_options);
 };
 
 //-------------------------------------------------------------------
