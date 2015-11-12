@@ -82,39 +82,39 @@
         <source-file src="src/ios/map/StoreCalloutAnnotation.m" target-dir="../../Classes/map/"/>
         <source-file src="src/ios/map/StoreCalloutAnnotationView.m" target-dir="../../Classes/map/"/>
 
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/balloon.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_a1.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_a2.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_a3.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_b1.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_b1_1.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_footer1.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_footer1_on.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_footer2.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/button_footer2_on.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/common_ic07.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_01.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_02.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_03.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_04.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_05.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_06.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b01.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b02.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b03.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b04.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b05.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/icons_b06.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_01.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_02.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_03.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_04.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_05.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_06.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_07.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_08.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_09.png"/>
-        <source-file target-dir="../../Classes/map/mapicons/" src="src/ios/map/mapicons/map_pin_shadow_10.png"/>
+        <source-file src="src/ios/map/mapicons/balloon.png"/>
+        <source-file src="src/ios/map/mapicons/button_a1.png"/>
+        <source-file src="src/ios/map/mapicons/button_a2.png"/>
+        <source-file src="src/ios/map/mapicons/button_a3.png"/>
+        <source-file src="src/ios/map/mapicons/button_b1.png"/>
+        <source-file src="src/ios/map/mapicons/button_b1_1.png"/>
+        <source-file src="src/ios/map/mapicons/button_footer1.png"/>
+        <source-file src="src/ios/map/mapicons/button_footer1_on.png"/>
+        <source-file src="src/ios/map/mapicons/button_footer2.png"/>
+        <source-file src="src/ios/map/mapicons/button_footer2_on.png"/>
+        <source-file src="src/ios/map/mapicons/common_ic07.png"/>
+        <source-file src="src/ios/map/mapicons/icons_01.png"/>
+        <source-file src="src/ios/map/mapicons/icons_02.png"/>
+        <source-file src="src/ios/map/mapicons/icons_03.png"/>
+        <source-file src="src/ios/map/mapicons/icons_04.png"/>
+        <source-file src="src/ios/map/mapicons/icons_05.png"/>
+        <source-file src="src/ios/map/mapicons/icons_06.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b01.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b02.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b03.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b04.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b05.png"/>
+        <source-file src="src/ios/map/mapicons/icons_b06.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_01.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_02.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_03.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_04.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_05.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_06.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_07.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_08.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_09.png"/>
+        <source-file src="src/ios/map/mapicons/map_pin_shadow_10.png"/>
 
         <source-file src="src/ios/map/DB/storeDB.sqlite" target-dir="../../Classes/map/DB/"/>
     </platform>
