@@ -51,8 +51,8 @@
         <header-file src="src/ios/map/DB/StoreDAO.h" target-dir="../../Classes/map/DB/"/>
         <header-file src="src/ios/map/DB/StoreDB.h" target-dir="../../Classes/map/DB/"/>
         <header-file src="src/ios/map/FeedXmlParser.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/GTM/GTMGarbageCollection.h" target-dir="../../Classes/map/DB/GTM/"/>
-        <header-file src="src/ios/map/GTM/GTMNSString+URLArguments.h" target-dir="../../Classes/map/DB/GTM/"/>
+        <header-file src="src/ios/map/GTM/GTMGarbageCollection.h" target-dir="../../Classes/map/GTM/"/>
+        <header-file src="src/ios/map/GTM/GTMNSString+URLArguments.h" target-dir="../../Classes/map/GTM/"/>
         <header-file src="src/ios/map/InfoView.h" target-dir="../../Classes/map/"/>
         <header-file src="src/ios/map/MapViewController.h" target-dir="../../Classes/map/"/>
         <header-file src="src/ios/map/OptionLineView.h" target-dir="../../Classes/map/"/>
