@@ -18,6 +18,9 @@
 
     <platform name="ios">
         <framework src="src/ios/sdk/OneSpeak.framework" custom="true"/>
+        <framework src="MapKit.framework"/>
+        <framework src="QuartzCore.framework"/>
+        <framework src="CFNetwork.framework"/>
         <config-file target="config.xml" parent="/*">
             <feature name="OneSpeakPlugin">
                 <param name="ios-package" value="OneSpeakPlugin"/>
