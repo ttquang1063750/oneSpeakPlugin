@@ -1,0 +1,289 @@
+/*
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ */
+
+//
+//  AppDelegate.m
+//  OfficialApplication
+//
+//  Created by ___FULLUSERNAME___ on ___DATE___.
+//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//
+
+#import "AppDelegate.h"
+#import "MainViewController.h"
+
+#import <Cordova/CDVPlugin.h>
+#import "OneSpeakPlugin.h"
+
+#define kOneSpeakCustomeDataEventId     @"event_id"
+#define kRemoteNotificationKeyAPS       @"aps"
+#define kRemoteNotificationKeyAlert     @"alert"
+
+@implementation AppDelegate
+
+@synthesize window, viewController;
+
+- (id)init
+{
+    /** If you need to do any extra app-specific initialization, you can do it here
+     *  -jm
+     **/
+    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+
+    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+
+    int cacheSizeMemory = 8 * 1024 * 1024; // 8MB
+    int cacheSizeDisk = 32 * 1024 * 1024; // 32MB
+#if __has_feature(objc_arc)
+        NSURLCache* sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"];
+#else
+        NSURLCache* sharedCache = [[[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"] autorelease];
+#endif
+    [NSURLCache setSharedURLCache:sharedCache];
+
+    self = [super init];
+    return self;
+}
+
+#pragma mark UIApplicationDelegate implementation
+
+/**
+ * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
+ */
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+{
+    
+    // OneSpeakPlugin用にUUIDを生成する
+    [OneSpeakPlugin checkUUID];
+    
+    // Onespeak framework init
+    [OSManager didFinishLaunchingWithOptions:launchOptions delegate:self];
+    
+    // アプリケーションのバッジをクリア
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+#if __has_feature(objc_arc)
+        self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+#else
+        self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+#endif
+    self.window.autoresizesSubviews = YES;
+
+#if __has_feature(objc_arc)
+        self.viewController = [[MainViewController alloc] init];
+#else
+        self.viewController = [[[MainViewController alloc] init] autorelease];
+#endif
+
+    // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
+    // If necessary, uncomment the line below to override it.
+    // self.viewController.startPage = @"index.html";
+
+    // NOTE: To customize the view's frame size (which defaults to full screen), override
+    // [self.viewController viewWillAppear:] in your view controller.
+
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
+
+    return YES;
+}
+
+//QUANG_START
+// this happens while we are running ( in the background, or from within our own app )
+// only valid if CouponApp-Info.plist specifies a protocol to handle
+- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
+{
+    if (!url) {
+        return NO;
+    }
+    
+    // calls into javascript global function 'handleOpenURL'
+    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
+    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    // all plugins will get the notification, and their handlers will be called
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+    
+    return YES;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // アプリケーションのバッジをクリア
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+#pragma mark - RemoteNotification methods
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // Push通知用のデバイストークンをOneSpeakに通知します
+    [OSManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    // Push通知用のデバイストークンの取得に失敗したことをOneSpeakに通知します
+    [OSManager didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    for (id key in userInfo) {
+        NSLog(@"%@=%@",key,[userInfo objectForKey:key]);
+    }
+    
+    
+    // Push通知を受けたことをOneSpeakに通知します
+    [OSManager didReceiveRemoteNotification:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
+        // アプリケーションがフォアグラウンドにいる場合はダイアログを出した後JavaScriptを実行しています。
+        // web画面側では下記のJavaScriptを用意いただくことで受け取ることができます。
+        //
+        // ======================================================================== //
+        //  function名
+        // ------------------------------------------------------------------------ //
+        //  window.didReceiveRemoteNotification
+        // ======================================================================== //
+        //  引数
+        // ------------------------------------------------------------------------ //
+        //  アプリ状態(第一引数) 0:フォアグラウンド 1:バックグラウンド
+        //  受信データ(第二引数) Pushのカスタムデータ
+        //  メッセージ(第三引数) Pushのメッセージ
+        // ======================================================================== //
+        //
+        // 例）
+        // ------------------------------------------------------------------------ //
+        // window.didReceiveRemoteNotification=function(state,customdata,message) {
+        //     alert('didReceiveRemoteNotification');
+        //     if (state == 0) {
+        //         alert(message+customdata);
+        //     }
+        // };
+        //
+        // -------------------- ここから -------------------- //
+        // Pushの情報を取得する
+        NSDictionary* aps = [userInfo objectForKey:kRemoteNotificationKeyAPS];
+        // メッセージを取得する
+        NSString* message = [aps objectForKey:kRemoteNotificationKeyAlert];
+        // カスタムデータを取得する
+        NSString* customData = [OneSpeakPlugin loadCustomData];
+        // JavaScriptの呼び出しを生成する
+        NSString* jsString = [NSString stringWithFormat:@"window.didReceiveRemoteNotification(%d,'%@','%@');", application.applicationState,
+                              [customData stringByReplacingOccurrencesOfString:@"\n" withString:@""],
+                              message
+                              ];
+        
+        [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
+        // -------------------- ここまで -------------------- //
+    } else if (application.applicationState == UIApplicationStateInactive) {
+        // バックグラウンドで起動中の場合は、初期画面を表示するためにrootViewControllerのインスタンスを再生成する。
+        self.viewController = nil;
+        self.window.rootViewController = nil;
+        
+        self.viewController = [[MainViewController alloc] init] ;
+        // self.viewController.useSplashScreen = YES;
+        
+        self.window.rootViewController = self.viewController;
+    }
+}
+
+#pragma mark - OSManagerDelegate Methods
+- (NSDictionary *)customDataForOneSpeak
+{
+    // UUIDを取得する。
+    NSMutableDictionary* dic = [OneSpeakPlugin createUUIDCustomData];
+    
+    // アプリバージョン情報を取得する
+    NSString *versionNo = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    // アプリバージョン情報をパラメータにセット
+    [dic setObject:versionNo forKey:@"version"];
+    
+    return dic;
+}
+
+- (void)oneSpeakDidReceiveCustomData:(NSDictionary *)customData {
+    // event_idを取得する
+    NSString* eventId = [customData objectForKey:kOneSpeakCustomeDataEventId];
+    
+    // Pushのカスタムデータに空データが入っている可能性があるので取り除く
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    for (NSString* key in customData.keyEnumerator) {
+        if (key == nil|| [key isEqualToString:@""]) {
+            continue;
+        }
+        [dic setObject:[customData objectForKey:key] forKey:key];
+    }
+    
+    if ([NSJSONSerialization isValidJSONObject:dic]) {
+        // カスタムデータからJSONを生成する。
+        NSData* data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+        NSString* str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        
+        NSLog(@"str = %@",str);
+        
+        // 生成したJSONをアプリ内に保存する。
+        [OneSpeakPlugin storePushedCustomData:str];
+        str = nil;
+    }
+    dic = nil;
+}
+
+//QUANG_END
+
+// this happens while we are running ( in the background, or from within our own app )
+// only valid if OfficialApplication-Info.plist specifies a protocol to handle
+- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
+{
+    if (!url) {
+        return NO;
+    }
+
+    // all plugins will get the notification, and their handlers will be called
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+
+    return YES;
+}
+
+// repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
+- (void)            application:(UIApplication*)application
+    didReceiveLocalNotification:(UILocalNotification*)notification
+{
+    // re-post ( broadcast )
+    [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+- (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+#else
+- (UIInterfaceOrientationMask)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+#endif
+{
+    // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
+    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
+
+    return supportedInterfaceOrientations;
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
+{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+
+@end
