@@ -116,7 +116,7 @@
         <resource-file src="src/ios/map/mapicons/map_pin_shadow_09.png"/>
         <resource-file src="src/ios/map/mapicons/map_pin_shadow_10.png"/>
 
-        <source-file src="src/ios/map/DB/storeDB.sqlite" target-dir="../../Classes/map/DB/"/>
+        <resource-file src="src/ios/map/DB/storeDB.sqlite"/>
     </platform>
 
     <platform name="android">
