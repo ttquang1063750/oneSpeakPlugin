@@ -68,10 +68,20 @@
  */
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)]){
+        // iOS 8 Notifications
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [application registerForRemoteNotifications];
+    }else{
+        // iOS < 8 Notifications
+        [application registerForRemoteNotificationTypes: (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    }
+
     
     // OneSpeakPlugin用にUUIDを生成する
     [OneSpeakPlugin checkUUID];
-    
+
     // Onespeak framework init
     [OSManager didFinishLaunchingWithOptions:launchOptions delegate:self];
     
@@ -219,9 +229,7 @@
 }
 
 - (void)oneSpeakDidReceiveCustomData:(NSDictionary *)customData {
-    // event_idを取得する
-    NSString* eventId = [customData objectForKey:kOneSpeakCustomeDataEventId];
-    
+
     // Pushのカスタムデータに空データが入っている可能性があるので取り除く
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     for (NSString* key in customData.keyEnumerator) {
