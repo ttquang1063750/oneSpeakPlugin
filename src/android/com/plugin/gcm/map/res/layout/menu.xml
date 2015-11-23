@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/frame_info"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="350dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <Button
+                    android:id="@+id/btn_info_use_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="30dp"
+                    android:background="@drawable/button_custom_a1"
+                    android:text="店舗マップについて" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/btn_info_use_map"
+                    android:layout_below="@+id/btn_info_use_map"
+                    android:layout_marginTop="3dp"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:layout_width="5dp"
+                            android:layout_height="20dp"
+                            android:background="@color/text_point" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="bottom"
+                            android:text="駅周辺検索や条件検索ができます"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/line" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_custom_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/linearLayout1"
+                    android:layout_below="@+id/linearLayout1"
+                    android:layout_marginTop="5dp"
+                    android:paddingRight="30dp"
+                    android:background="@drawable/button_custom_a2"
+                    android:text="カスタム検索" />
+
+                <EditText
+                    android:id="@+id/edi_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearLayout2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="ご入力ください"
+                    android:inputType="textPersonName" >
+
+                    <requestFocus />
+                </EditText>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/btn_custom_search"
+                    android:layout_below="@+id/btn_custom_search"
+                    android:layout_marginTop="3dp"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:layout_width="5dp"
+                            android:layout_height="20dp"
+                            android:background="@color/text_point" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="bottom"
+                            android:text="地名、キーワードから検索できます"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/line" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edi_address"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/button_custom_a3"
+                    android:paddingRight="30dp"
+                    android:text="マップ内検索" />
+
+                <Button
+                    android:id="@+id/btn_menu_end"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/btn_search"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_b1_1"
+                    android:text="閉じる"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

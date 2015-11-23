@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_map_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- header部分の領域(透明) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/reload_view"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+    <!-- main部分の領域 -->
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+        
+        <LinearLayout
+            android:id="@+id/net_notification"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#d10015"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" >
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:src="@drawable/common_ic07" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="インターネット接続がありません"
+                    android:textSize="13sp" 
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+
+        <!-- mapView設定 -->
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/map_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:orientation="vertical" >
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/mapview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:clickable="true"
+                        android:enabled="true">
+
+                    </com.google.android.gms.maps.MapView>
+
+
+                    <LinearLayout
+                        android:id="@+id/map_footer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/map_footer" >
+
+                        <Button
+                            android:id="@+id/map_menu"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_custom_footer_a"
+                            android:text="オプション"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_here"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_custom_footer_a"
+                            android:text="現在地"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_balloon"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_custom_footer_a"
+                            android:text="フキダシ表示"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_web"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_custom_footer_b"
+                            android:text="新店・一時閉店"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- footer部分の領域(透明) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"/>
+
+</LinearLayout>

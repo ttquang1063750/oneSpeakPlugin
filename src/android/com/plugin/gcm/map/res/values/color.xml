@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="info_background">#f1efe2</color>
+    <color name="info_background_item_title">#fff9dc</color>
+    <color name="text_point">#4d4837</color>
+    <color name="info_text_field">#cac9b0</color>
+
+</resources>
