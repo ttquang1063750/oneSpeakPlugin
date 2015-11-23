@@ -3,339 +3,371 @@
         version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <name>OneSpeakPlugin</name>
-    <author>QuangTang</author>
+  <name>OneSpeakPlugin</name>
+  <author>QuangTang</author>
 
-    <description>
-        This plugin allows your application to receive push notifications on Android, iOS devices.
-        Android uses Google Cloud Messaging.
-        iOS uses Apple APNS Notifications.
-    </description>
+  <description>
+    This plugin allows your application to receive push notifications on Android, iOS devices.
+    Android uses Google Cloud Messaging.
+    iOS uses Apple APNS Notifications.
+  </description>
 
-    <js-module name="OneSpeakPlugin" src="www/OneSpeakPlugin.js">
-        <clobbers target="OneSpeakPlugin"/>
-    </js-module>
+  <js-module name="OneSpeakPlugin" src="www/OneSpeakPlugin.js">
+    <clobbers target="OneSpeakPlugin"/>
+  </js-module>
 
-    <platform name="ios">
-        <framework src="src/ios/sdk/OneSpeak.framework" custom="true"/>
-        <framework src="MapKit.framework"/>
-        <framework src="QuartzCore.framework"/>
-        <framework src="CFNetwork.framework"/>
-        <config-file target="config.xml" parent="/*">
-            <feature name="OneSpeakPlugin">
-                <param name="ios-package" value="OneSpeakPlugin"/>
-            </feature>
-        </config-file>
+  <platform name="ios">
+    <framework src="src/ios/sdk/OneSpeak.framework" custom="true"/>
+    <framework src="MapKit.framework"/>
+    <framework src="QuartzCore.framework"/>
+    <framework src="CFNetwork.framework"/>
+    <config-file target="config.xml" parent="/*">
+      <feature name="OneSpeakPlugin">
+        <param name="ios-package" value="OneSpeakPlugin"/>
+      </feature>
+    </config-file>
 
-        <source-file src="src/ios/AppDelegate.h"/>
-        <source-file src="src/ios/AppDelegate.m"/>
+    <source-file src="src/ios/AppDelegate.h"/>
+    <source-file src="src/ios/AppDelegate.m"/>
 
-        <source-file src="src/ios/MainViewController.h"/>
-        <source-file src="src/ios/MainViewController.m"/>
-
-
-        <header-file src="src/ios/OneSpeakPlugin.h"/>
-        <source-file src="src/ios/OneSpeakPlugin.m"/>
-
-        <source-file src="src/ios/sdk/OneSpeak.plist"/>
-        <source-file src="src/ios/sdk/OneSpeakPlugin.plist"/>
-
-        <header-file src="src/ios/map/CommonUtilities.h"  target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/CreateColor.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/DB/DetailDAO.h" target-dir="../../Classes/map/DB/"/>
-        <header-file src="src/ios/map/DB/FMDatabase/FMDatabase.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <header-file src="src/ios/map/DB/FMDatabase/FMDatabaseAdditions.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <header-file src="src/ios/map/DB/FMDatabase/FMDatabasePool.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <header-file src="src/ios/map/DB/FMDatabase/FMDatabaseQueue.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <header-file src="src/ios/map/DB/FMDatabase/FMResultSet.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <header-file src="src/ios/map/DB/StoreDAO.h" target-dir="../../Classes/map/DB/"/>
-        <header-file src="src/ios/map/DB/StoreDB.h" target-dir="../../Classes/map/DB/"/>
-        <header-file src="src/ios/map/FeedXmlParser.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/GTM/GTMGarbageCollection.h" target-dir="../../Classes/map/GTM/"/>
-        <header-file src="src/ios/map/GTM/GTMNSString+URLArguments.h" target-dir="../../Classes/map/GTM/"/>
-        <header-file src="src/ios/map/InfoView.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/MapViewController.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/OptionLineView.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/OptionView.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/RequestUserDefaults.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/StoreAnnotation.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/StoreCalloutAnnotation.h" target-dir="../../Classes/map/"/>
-        <header-file src="src/ios/map/StoreCalloutAnnotationView.h" target-dir="../../Classes/map/"/>
-
-        <source-file src="src/ios/map/CreateColor.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/DB/DetailDAO.m" target-dir="../../Classes/map/DB/"/>
-        <source-file src="src/ios/map/DB/FMDatabase/FMDatabase.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <source-file src="src/ios/map/DB/FMDatabase/FMDatabaseAdditions.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <source-file src="src/ios/map/DB/FMDatabase/FMDatabasePool.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <source-file src="src/ios/map/DB/FMDatabase/FMDatabaseQueue.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <source-file src="src/ios/map/DB/FMDatabase/FMResultSet.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
-        <source-file src="src/ios/map/DB/StoreDAO.m" target-dir="../../Classes/map/DB/"/>
-        <source-file src="src/ios/map/DB/StoreDB.m" target-dir="../../Classes/map/DB/"/>
-        <source-file src="src/ios/map/FeedXmlParser.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/GTM/GTMNSString+URLArguments.m" target-dir="../../Classes/map/GTM/"/>
-        <source-file src="src/ios/map/InfoView.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/MapViewController.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/OptionLineView.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/OptionView.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/RequestUserDefaults.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/StoreAnnotation.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/StoreCalloutAnnotation.m" target-dir="../../Classes/map/"/>
-        <source-file src="src/ios/map/StoreCalloutAnnotationView.m" target-dir="../../Classes/map/"/>
-
-        <resource-file src="src/ios/map/mapicons/balloon.png"/>
-        <resource-file src="src/ios/map/mapicons/button_a1.png"/>
-        <resource-file src="src/ios/map/mapicons/button_a2.png"/>
-        <resource-file src="src/ios/map/mapicons/button_a3.png"/>
-        <resource-file src="src/ios/map/mapicons/button_b1.png"/>
-        <resource-file src="src/ios/map/mapicons/button_b1_1.png"/>
-        <resource-file src="src/ios/map/mapicons/button_footer1.png"/>
-        <resource-file src="src/ios/map/mapicons/button_footer1_on.png"/>
-        <resource-file src="src/ios/map/mapicons/button_footer2.png"/>
-        <resource-file src="src/ios/map/mapicons/button_footer2_on.png"/>
-        <resource-file src="src/ios/map/mapicons/common_ic07.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_01.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_02.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_03.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_04.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_05.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_06.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b01.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b02.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b03.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b04.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b05.png"/>
-        <resource-file src="src/ios/map/mapicons/icons_b06.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_01.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_02.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_03.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_04.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_05.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_06.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_07.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_08.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_09.png"/>
-        <resource-file src="src/ios/map/mapicons/map_pin_shadow_10.png"/>
-        <resource-file src="src/ios/map/DB/storeDB.sqlite"/>
-    </platform>
-
-    <platform name="android">
-        <framework src="com.android.support:support-v4:+"/>
-        <config-file parent="/*" target="res/xml/config.xml">
-            <feature name="OneSpeakPlugin">
-                <param name="android-package" value="com.plugin.gcm.OneSpeakPlugin"/>
-            </feature>
-        </config-file>
-
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-            <uses-permission android:name="android.permission.WAKE_LOCK"/>
-            <uses-permission android:name="android.permission.VIBRATE"/>
-            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-            <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
-            <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
-            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-            <uses-permission android:name="$PACKAGE_NAME.google_mapsv2.permission.MAPS_RECEIVE" />
-            <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-            <permission android:name="$PACKAGE_NAME.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
-            <uses-feature android:glEsVersion="0x00020000" android:required="true" />
-        </config-file>
-
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <!-- 【debug】
-       <meta-data
-           android:name="com.google.android.maps.v2.API_KEY"
-           android:value="AIzaSyCtky0lQNzCyWEm_7wenOdh8lE9zHf4WeI" /> -->
-
-            <!-- 【release】 -->
-            <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyC_ZrDsbyH_sFTUY8QHNsHY_fYbb84acwI" />
-
-            <!-- 【OneSpeak設定項目】 -->
-            <!-- プロジェクトID -->
-            <meta-data android:name="net.isana.OneSpeak.senderID" android:value="!535460620042" />
-
-            <!-- アカウント識別子 -->
-            <meta-data android:name="net.isana.OneSpeak.accountID" android:value="matsuyafoods" />
-
-            <!-- アカウント認証kキー -->
-            <meta-data android:name="net.isana.OneSpeak.key" android:value="9a82e399c002e98ede8f92eada7d5470" />
-
-            <!-- サーバ接続識別子 -->
-            <!-- 【debug】
-            <meta-data
-                android:name="net.isana.OneSpeak.connectionID"
-                android:value="test" /> -->
-            <!-- 【release】 -->
-            <meta-data android:name="net.isana.OneSpeak.connectionID" android:value="www5" />
-
-            <!-- スポット通知の有効設定(yes/no) -->
-            <meta-data android:name="net.isana.OneSpeak.spotNotificationEnabled" android:value="no" />
-
-            <!-- 現在位置の取得間隔(秒) -->
-            <meta-data android:name="net.isana.OneSpeak.spotTrackingInterval" android:value="86400" />
-
-            <!-- 現在位置取得のタイムアウト時間(秒) -->
-            <meta-data android:name="net.isana.OneSpeak.GPSTrackingTimeout" android:value="30" />
-
-            <!-- スポット通知の複数通知の有効設定(yes/no) -->
-            <meta-data android:name="net.isana.OneSpeak.notifyMultiEnabled" android:value="no" />
-
-            <!-- エリア通知の有効設定(yes/no) -->
-            <meta-data android:name="net.isana.OneSpeak.sendGPSTrackingEnabled" android:value="no" />
-
-            <!-- 効果測定の有効設定(yes/no) -->
-            <meta-data android:name="net.isana.OneSpeak.effectMeasurementEnabled" android:value="yes" />
-
-            <!-- リアルタイム測定の有効設定(yes/no) -->
-            <meta-data android:name="net.isana.OneSpeak.realtimeMeasurementEnabled" android:value="yes" />
-
-            <!-- GCMサービスの設定 -->
-            <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
-
-                <!-- メッセージの受信 -->
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- GCM登録IDの受信 -->
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- リトライ処理用 -->
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RETRY" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-            </receiver>
-
-            <!-- OneSpeakサービスの設定 -->
-            <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver" >
-
-                <!-- 端末IDの登録 -->
-                <intent-filter>
-                    <action android:name="net.isana.OneSpeak.intent.REGISTRATION" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- 現在位置の更新依頼 -->
-                <intent-filter>
-                    <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- 現在位置の更新タイムアウト通知 -->
-                <intent-filter>
-                    <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE_TIMEOUT" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- 現在位置の更新完了通知 -->
-                <intent-filter>
-                    <action android:name="net.isana.OneSpeak.intent.LOCATION_CHANGED" />
-                    <category android:name="$PACKAGE_NAME" />
-                </intent-filter>
-
-                <!-- 端末の起動完了通知 -->
-                <intent-filter>
-                    <action android:name="android.intent.action.BOOT_COMPLETED" />
-                </intent-filter>
-            </receiver>
-            <service android:name="com.plugin.gcm.OneSpeakService"/>
-            <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
-        </config-file>
-
-        <dependency id="com.google.playservices" />
-        <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
-
-        <source-file src="src/android/com/plugin/gcm/map/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/map/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/map/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/map/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/map/db/DBHelper.java" target-dir="src/com/plugin/gcm/map/db/"/>
-        <source-file src="src/android/com/plugin/gcm/map/db/DetailDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
-        <source-file src="src/android/com/plugin/gcm/map/db/StoreDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
-        <source-file src="src/android/com/plugin/gcm/map/entity/RequestRange.java" target-dir="src/com/plugin/gcm/map/entity/"/>
-        <source-file src="src/android/com/plugin/gcm/map/entity/Shop.java" target-dir="src/com/plugin/gcm/map/entity/"/>
-        <source-file src="src/android/com/plugin/gcm/map/entity/ShopDetail.java" target-dir="src/com/plugin/gcm/map/entity/"/>
-        <source-file src="src/android/com/plugin/gcm/map/MapControlPlugin.java" target-dir="src/com/plugin/gcm/map/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/CommonUtilities.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/CreateMarker.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/DBfindAsyncTask.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/HttpConnectionsHelper.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/MapMainActivity.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/MapMenuDialog.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/ShopInfoView.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/mapview/UpdateCheckAsyncTask.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
-        <source-file src="src/android/com/plugin/gcm/map/MyMapContent.java" target-dir="src/com/plugin/gcm/map/"/>
-        <source-file src="src/android/com/plugin/gcm/map/parser/FeedDetailParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
-        <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
+    <source-file src="src/ios/MainViewController.h"/>
+    <source-file src="src/ios/MainViewController.m"/>
 
 
+    <header-file src="src/ios/OneSpeakPlugin.h"/>
+    <source-file src="src/ios/OneSpeakPlugin.m"/>
 
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/arrow.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/balloon_overlay_unfocused1.9.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a1.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a2.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a3.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1_1.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1_on.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2_on.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/common_ic07.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_01.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_02.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_03.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_04.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_05.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_06.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b01.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b02.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b03.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b04.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b05.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b06.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_01.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_02.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_03.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_04.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_05.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_06.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_07.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_08.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_09.png" target-dir="res/drawable-hdpi"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_10.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/ios/sdk/OneSpeak.plist"/>
+    <source-file src="src/ios/sdk/OneSpeakPlugin.plist"/>
 
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/activity_main.xml" target-dir="res/layout"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/information.xml" target-dir="res/layout"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/map_content.xml" target-dir="res/layout"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
+    <header-file src="src/ios/map/CommonUtilities.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/CreateColor.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/DB/DetailDAO.h" target-dir="../../Classes/map/DB/"/>
+    <header-file src="src/ios/map/DB/FMDatabase/FMDatabase.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <header-file src="src/ios/map/DB/FMDatabase/FMDatabaseAdditions.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <header-file src="src/ios/map/DB/FMDatabase/FMDatabasePool.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <header-file src="src/ios/map/DB/FMDatabase/FMDatabaseQueue.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <header-file src="src/ios/map/DB/FMDatabase/FMResultSet.h" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <header-file src="src/ios/map/DB/StoreDAO.h" target-dir="../../Classes/map/DB/"/>
+    <header-file src="src/ios/map/DB/StoreDB.h" target-dir="../../Classes/map/DB/"/>
+    <header-file src="src/ios/map/FeedXmlParser.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/GTM/GTMGarbageCollection.h" target-dir="../../Classes/map/GTM/"/>
+    <header-file src="src/ios/map/GTM/GTMNSString+URLArguments.h" target-dir="../../Classes/map/GTM/"/>
+    <header-file src="src/ios/map/InfoView.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/MapViewController.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/OptionLineView.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/OptionView.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/RequestUserDefaults.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/StoreAnnotation.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/StoreCalloutAnnotation.h" target-dir="../../Classes/map/"/>
+    <header-file src="src/ios/map/StoreCalloutAnnotationView.h" target-dir="../../Classes/map/"/>
 
-      <source-file src="src/android/com/plugin/gcm/map/res/menu/main.xml" target-dir="res/menu"/>
+    <source-file src="src/ios/map/CreateColor.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/DB/DetailDAO.m" target-dir="../../Classes/map/DB/"/>
+    <source-file src="src/ios/map/DB/FMDatabase/FMDatabase.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <source-file src="src/ios/map/DB/FMDatabase/FMDatabaseAdditions.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <source-file src="src/ios/map/DB/FMDatabase/FMDatabasePool.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <source-file src="src/ios/map/DB/FMDatabase/FMDatabaseQueue.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <source-file src="src/ios/map/DB/FMDatabase/FMResultSet.m" target-dir="../../Classes/map/DB/FMDatabase/"/>
+    <source-file src="src/ios/map/DB/StoreDAO.m" target-dir="../../Classes/map/DB/"/>
+    <source-file src="src/ios/map/DB/StoreDB.m" target-dir="../../Classes/map/DB/"/>
+    <source-file src="src/ios/map/FeedXmlParser.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/GTM/GTMNSString+URLArguments.m" target-dir="../../Classes/map/GTM/"/>
+    <source-file src="src/ios/map/InfoView.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/MapViewController.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/OptionLineView.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/OptionView.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/RequestUserDefaults.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/StoreAnnotation.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/StoreCalloutAnnotation.m" target-dir="../../Classes/map/"/>
+    <source-file src="src/ios/map/StoreCalloutAnnotationView.m" target-dir="../../Classes/map/"/>
 
-      <source-file src="src/android/com/plugin/gcm/map/res/values/analytics.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/strings.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/styles.xml" target-dir="res/values"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/values/themes_info_dialog.xml" target-dir="res/values"/>
+    <resource-file src="src/ios/map/mapicons/balloon.png"/>
+    <resource-file src="src/ios/map/mapicons/button_a1.png"/>
+    <resource-file src="src/ios/map/mapicons/button_a2.png"/>
+    <resource-file src="src/ios/map/mapicons/button_a3.png"/>
+    <resource-file src="src/ios/map/mapicons/button_b1.png"/>
+    <resource-file src="src/ios/map/mapicons/button_b1_1.png"/>
+    <resource-file src="src/ios/map/mapicons/button_footer1.png"/>
+    <resource-file src="src/ios/map/mapicons/button_footer1_on.png"/>
+    <resource-file src="src/ios/map/mapicons/button_footer2.png"/>
+    <resource-file src="src/ios/map/mapicons/button_footer2_on.png"/>
+    <resource-file src="src/ios/map/mapicons/common_ic07.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_01.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_02.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_03.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_04.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_05.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_06.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b01.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b02.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b03.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b04.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b05.png"/>
+    <resource-file src="src/ios/map/mapicons/icons_b06.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_01.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_02.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_03.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_04.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_05.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_06.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_07.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_08.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_09.png"/>
+    <resource-file src="src/ios/map/mapicons/map_pin_shadow_10.png"/>
+    <resource-file src="src/ios/map/DB/storeDB.sqlite"/>
+  </platform>
 
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/balloon_overlay_bg_selector.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a1.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a2.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a3.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_a.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_b.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/frame_info.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/info_table_stroke_line.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/line.xml" target-dir="res/drawable"/>
-      <source-file src="src/android/com/plugin/gcm/map/res/drawable/map_footer.xml" target-dir="res/drawable"/>
-    </platform>
+  <platform name="android">
+    <framework src="com.android.support:support-v4:+"/>
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="OneSpeakPlugin">
+        <param name="android-package" value="com.plugin.gcm.OneSpeakPlugin"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+      <uses-permission android:name="android.permission.WAKE_LOCK"/>
+      <uses-permission android:name="android.permission.VIBRATE"/>
+      <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+      <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+      <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
+      <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+      <uses-permission android:name="$PACKAGE_NAME.google_mapsv2.permission.MAPS_RECEIVE"/>
+      <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+      <permission android:name="$PACKAGE_NAME.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+      <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <!-- 【debug】
+ <meta-data
+     android:name="com.google.android.maps.v2.API_KEY"
+     android:value="AIzaSyCtky0lQNzCyWEm_7wenOdh8lE9zHf4WeI" /> -->
+
+      <!-- 【release】 -->
+      <meta-data android:name="com.google.android.maps.v2.API_KEY"
+                 android:value="AIzaSyC_ZrDsbyH_sFTUY8QHNsHY_fYbb84acwI"/>
+
+      <!-- 【OneSpeak設定項目】 -->
+      <!-- プロジェクトID -->
+      <meta-data android:name="net.isana.OneSpeak.senderID" android:value="!535460620042"/>
+
+      <!-- アカウント識別子 -->
+      <meta-data android:name="net.isana.OneSpeak.accountID" android:value="matsuyafoods"/>
+
+      <!-- アカウント認証kキー -->
+      <meta-data android:name="net.isana.OneSpeak.key" android:value="9a82e399c002e98ede8f92eada7d5470"/>
+
+      <!-- サーバ接続識別子 -->
+      <!-- 【debug】
+      <meta-data
+          android:name="net.isana.OneSpeak.connectionID"
+          android:value="test" /> -->
+      <!-- 【release】 -->
+      <meta-data android:name="net.isana.OneSpeak.connectionID" android:value="www5"/>
+
+      <!-- スポット通知の有効設定(yes/no) -->
+      <meta-data android:name="net.isana.OneSpeak.spotNotificationEnabled" android:value="no"/>
+
+      <!-- 現在位置の取得間隔(秒) -->
+      <meta-data android:name="net.isana.OneSpeak.spotTrackingInterval" android:value="86400"/>
+
+      <!-- 現在位置取得のタイムアウト時間(秒) -->
+      <meta-data android:name="net.isana.OneSpeak.GPSTrackingTimeout" android:value="30"/>
+
+      <!-- スポット通知の複数通知の有効設定(yes/no) -->
+      <meta-data android:name="net.isana.OneSpeak.notifyMultiEnabled" android:value="no"/>
+
+      <!-- エリア通知の有効設定(yes/no) -->
+      <meta-data android:name="net.isana.OneSpeak.sendGPSTrackingEnabled" android:value="no"/>
+
+      <!-- 効果測定の有効設定(yes/no) -->
+      <meta-data android:name="net.isana.OneSpeak.effectMeasurementEnabled" android:value="yes"/>
+
+      <!-- リアルタイム測定の有効設定(yes/no) -->
+      <meta-data android:name="net.isana.OneSpeak.realtimeMeasurementEnabled" android:value="yes"/>
+
+      <!-- GCMサービスの設定 -->
+      <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND">
+
+        <!-- メッセージの受信 -->
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- GCM登録IDの受信 -->
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- リトライ処理用 -->
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RETRY"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+      </receiver>
+
+      <!-- OneSpeakサービスの設定 -->
+      <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver">
+
+        <!-- 端末IDの登録 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.REGISTRATION"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- 現在位置の更新依頼 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- 現在位置の更新タイムアウト通知 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE_TIMEOUT"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- 現在位置の更新完了通知 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_CHANGED"/>
+          <category android:name="$PACKAGE_NAME"/>
+        </intent-filter>
+
+        <!-- 端末の起動完了通知 -->
+        <intent-filter>
+          <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        </intent-filter>
+      </receiver>
+      <service android:name="com.plugin.gcm.OneSpeakService"/>
+      <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
+    </config-file>
+
+    <framework src="libs/google-play-services_lib" custom="true"/>
+    <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/map/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/map/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/map/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/DBHelper.java" target-dir="src/com/plugin/gcm/map/db/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/DetailDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/StoreDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
+    <source-file src="src/android/com/plugin/gcm/map/entity/RequestRange.java"
+                 target-dir="src/com/plugin/gcm/map/entity/"/>
+    <source-file src="src/android/com/plugin/gcm/map/entity/Shop.java" target-dir="src/com/plugin/gcm/map/entity/"/>
+    <source-file src="src/android/com/plugin/gcm/map/entity/ShopDetail.java"
+                 target-dir="src/com/plugin/gcm/map/entity/"/>
+    <source-file src="src/android/com/plugin/gcm/map/MapControlPlugin.java" target-dir="src/com/plugin/gcm/map/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/CommonUtilities.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/CreateMarker.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/DBfindAsyncTask.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/HttpConnectionsHelper.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/MapMainActivity.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/MapMenuDialog.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/ShopInfoView.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/UpdateCheckAsyncTask.java"
+                 target-dir="src/com/plugin/gcm/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/MyMapContent.java" target-dir="src/com/plugin/gcm/map/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedDetailParser.java"
+                 target-dir="src/com/plugin/gcm/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java"
+                 target-dir="src/com/plugin/gcm/map/parser/"/>
+
+
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/arrow.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/balloon_overlay_unfocused1.9.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a1.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a2.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a3.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1_1.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1_on.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2_on.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/common_ic07.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_01.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_02.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_03.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_04.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_05.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_06.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b01.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b02.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b03.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b04.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b05.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b06.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_01.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_02.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_03.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_04.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_05.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_06.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_07.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_08.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_09.png"
+                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_10.png"
+                 target-dir="res/drawable-hdpi"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/activity_main.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/information.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/map_content.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/res/menu/main.xml" target-dir="res/menu"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/res/values/analytics.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/strings.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/styles.xml" target-dir="res/values"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/values/themes_info_dialog.xml" target-dir="res/values"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/balloon_overlay_bg_selector.xml"
+                 target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a1.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a2.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a3.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_a.xml"
+                 target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_b.xml"
+                 target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/frame_info.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/info_table_stroke_line.xml"
+                 target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/line.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable/map_footer.xml" target-dir="res/drawable"/>
+  </platform>
 </plugin>
