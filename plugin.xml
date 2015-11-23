@@ -266,7 +266,6 @@
     <source-file src="src/android/com/plugin/gcm/map/entity/Shop.java" target-dir="src/com/plugin/gcm/map/entity/"/>
     <source-file src="src/android/com/plugin/gcm/map/entity/ShopDetail.java"
                  target-dir="src/com/plugin/gcm/map/entity/"/>
-    <source-file src="src/android/com/plugin/gcm/map/MapControlPlugin.java" target-dir="src/com/plugin/gcm/map/"/>
     <source-file src="src/android/com/plugin/gcm/map/mapview/CommonUtilities.java"
                  target-dir="src/com/plugin/gcm/map/mapview/"/>
     <source-file src="src/android/com/plugin/gcm/map/mapview/CreateMarker.java"
