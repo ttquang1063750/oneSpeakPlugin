@@ -346,13 +346,10 @@
     <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/menu/main.xml" target-dir="res/menu"/>
-
     <source-file src="src/android/com/plugin/gcm/map/res/values/analytics.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/values/strings.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/styles.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/themes_info_dialog.xml" target-dir="res/values"/>
 
