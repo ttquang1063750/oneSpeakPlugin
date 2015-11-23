@@ -252,10 +252,12 @@
     <framework src="libs/google-play-services_lib" custom="true"/>
     <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/map/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/map/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/map/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
+
+
     <source-file src="src/android/com/plugin/gcm/map/db/DBHelper.java" target-dir="src/com/plugin/gcm/map/db/"/>
     <source-file src="src/android/com/plugin/gcm/map/db/DetailDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
     <source-file src="src/android/com/plugin/gcm/map/db/StoreDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
