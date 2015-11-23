@@ -134,25 +134,145 @@
             <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
             <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
             <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+            <uses-permission android:name="$PACKAGE_NAME.google_mapsv2.permission.MAPS_RECEIVE" />
+            <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+            <permission android:name="$PACKAGE_NAME.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
+            <uses-feature android:glEsVersion="0x00020000" android:required="true" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="com.plugin.gcm.PushHandlerActivity" android:exported="true"/>
-            <receiver android:name="com.plugin.gcm.CordovaGCMBroadcastReceiver"
-                      android:permission="com.google.android.c2dm.permission.SEND">
+            <!-- 【debug】
+       <meta-data
+           android:name="com.google.android.maps.v2.API_KEY"
+           android:value="AIzaSyCtky0lQNzCyWEm_7wenOdh8lE9zHf4WeI" /> -->
+
+            <!-- 【release】 -->
+            <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyC_ZrDsbyH_sFTUY8QHNsHY_fYbb84acwI" />
+
+            <!-- 【OneSpeak設定項目】 -->
+            <!-- プロジェクトID -->
+            <meta-data android:name="net.isana.OneSpeak.senderID" android:value="!535460620042" />
+
+            <!-- アカウント識別子 -->
+            <meta-data android:name="net.isana.OneSpeak.accountID" android:value="matsuyafoods" />
+
+            <!-- アカウント認証kキー -->
+            <meta-data android:name="net.isana.OneSpeak.key" android:value="9a82e399c002e98ede8f92eada7d5470" />
+
+            <!-- サーバ接続識別子 -->
+            <!-- 【debug】
+            <meta-data
+                android:name="net.isana.OneSpeak.connectionID"
+                android:value="test" /> -->
+            <!-- 【release】 -->
+            <meta-data android:name="net.isana.OneSpeak.connectionID" android:value="www5" />
+
+            <!-- スポット通知の有効設定(yes/no) -->
+            <meta-data android:name="net.isana.OneSpeak.spotNotificationEnabled" android:value="no" />
+
+            <!-- 現在位置の取得間隔(秒) -->
+            <meta-data android:name="net.isana.OneSpeak.spotTrackingInterval" android:value="86400" />
+
+            <!-- 現在位置取得のタイムアウト時間(秒) -->
+            <meta-data android:name="net.isana.OneSpeak.GPSTrackingTimeout" android:value="30" />
+
+            <!-- スポット通知の複数通知の有効設定(yes/no) -->
+            <meta-data android:name="net.isana.OneSpeak.notifyMultiEnabled" android:value="no" />
+
+            <!-- エリア通知の有効設定(yes/no) -->
+            <meta-data android:name="net.isana.OneSpeak.sendGPSTrackingEnabled" android:value="no" />
+
+            <!-- 効果測定の有効設定(yes/no) -->
+            <meta-data android:name="net.isana.OneSpeak.effectMeasurementEnabled" android:value="yes" />
+
+            <!-- リアルタイム測定の有効設定(yes/no) -->
+            <meta-data android:name="net.isana.OneSpeak.realtimeMeasurementEnabled" android:value="yes" />
+
+            <!-- GCMサービスの設定 -->
+            <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+
+                <!-- メッセージの受信 -->
                 <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                    <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-                    <category android:name="$PACKAGE_NAME"/>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- GCM登録IDの受信 -->
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- リトライ処理用 -->
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RETRY" />
+                    <category android:name="$PACKAGE_NAME" />
                 </intent-filter>
             </receiver>
-            <service android:name="com.plugin.gcm.GCMIntentService"/>
+
+            <!-- OneSpeakサービスの設定 -->
+            <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver" >
+
+                <!-- 端末IDの登録 -->
+                <intent-filter>
+                    <action android:name="net.isana.OneSpeak.intent.REGISTRATION" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- 現在位置の更新依頼 -->
+                <intent-filter>
+                    <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- 現在位置の更新タイムアウト通知 -->
+                <intent-filter>
+                    <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE_TIMEOUT" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- 現在位置の更新完了通知 -->
+                <intent-filter>
+                    <action android:name="net.isana.OneSpeak.intent.LOCATION_CHANGED" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+
+                <!-- 端末の起動完了通知 -->
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED" />
+                </intent-filter>
+            </receiver>
+            <service android:name="com.plugin.gcm.OneSpeakService"/>
+            <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
         </config-file>
 
-        <source-file src="src/android/libs/gcm.jar" target-dir="libs/"/>
-        <source-file src="src/android/com/plugin/gcm/CordovaGCMBroadcastReceiver.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/GCMIntentService.java" target-dir="src/com/plugin/gcm/"/>
-        <source-file src="src/android/com/plugin/gcm/PushHandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
+        <dependency id="com.google.playservices" />
+        <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
+
+        <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
+        <source-file src="src/android/com/plugin/gcm/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
         <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
+        <source-file src="src/android/com/plugin/gcm/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
+
+        <source-file src="src/android/com/plugin/gcm/db/DBHelper.java" target-dir="src/com/plugin/gcm/map/db/"/>
+        <source-file src="src/android/com/plugin/gcm/db/DetailDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
+        <source-file src="src/android/com/plugin/gcm/db/StoreDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
+        <source-file src="src/android/com/plugin/gcm/entity/RequestRange.java" target-dir="src/com/plugin/gcm/map/entity/"/>
+        <source-file src="src/android/com/plugin/gcm/entity/Shop.java" target-dir="src/com/plugin/gcm/map/entity/"/>
+        <source-file src="src/android/com/plugin/gcm/entity/ShopDetail.java" target-dir="src/com/plugin/gcm/map/entity/"/>
+        <source-file src="src/android/com/plugin/gcm/MapControlPlugin.java" target-dir="src/com/plugin/gcm/map/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/CommonUtilities.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/CreateMarker.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/DBfindAsyncTask.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/HttpConnectionsHelper.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/MapMainActivity.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/MapMenuDialog.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/ShopInfoView.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/mapview/UpdateCheckAsyncTask.java" target-dir="src/com/plugin/gcm/map/mapview/"/>
+        <source-file src="src/android/com/plugin/gcm/MyMapContent.java" target-dir="src/com/plugin/gcm/map/"/>
+        <source-file src="src/android/com/plugin/gcm/parser/FeedDetailParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
+        <source-file src="src/android/com/plugin/gcm/parser/FeedParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
     </platform>
 </plugin>
+

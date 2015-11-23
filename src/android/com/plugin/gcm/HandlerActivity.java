@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-public class PushHandlerActivity extends Activity
+public class HandlerActivity extends Activity
 {
 	private static String TAG = "PushHandlerActivity"; 
 

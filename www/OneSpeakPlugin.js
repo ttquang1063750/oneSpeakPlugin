@@ -11,6 +11,12 @@ OneSpeakPlugin.prototype.customDataUpdateWithCommand = function(successCallback,
     cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "customDataUpdateWithCommand", array_options);
 };
 
+// Call this to set the application icon badge
+OneSpeakPlugin.prototype.mapController = function(successCallback, errorCallback, array_options) {
+    if (errorCallback == null) { errorCallback = function() {}}
+    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "mapController", array_options);
+};
+
 //-------------------------------------------------------------------
 
 if(!window.plugins) {
