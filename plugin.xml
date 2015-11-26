@@ -249,7 +249,8 @@
       <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
     </config-file>
 
-    <framework src="src/android/libs/google-play-services_lib" custom="true"/>
+    <!--<framework src="src/android/libs/google-play-services_lib" custom="true"/>-->
+    <dependency id="com.google.playservices" />
     <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
 
     <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
