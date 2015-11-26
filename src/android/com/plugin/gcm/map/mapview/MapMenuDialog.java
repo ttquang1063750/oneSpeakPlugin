@@ -1,7 +1,6 @@
-package jp.co.matsuyafoods.officialapp.dis.map.mapview;
+package com.plugin.gcm.map.mapview;
 
-import static jp.co.matsuyafoods.officialapp.dis.map.mapview.CommonUtilities.*;
-import jp.co.matsuyafoods.officialapp.dis.R;
+import static com.plugin.gcm.map.mapview.CommonUtilities.*;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;

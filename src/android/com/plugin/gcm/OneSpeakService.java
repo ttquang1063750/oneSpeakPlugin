@@ -1,13 +1,11 @@
 package com.plugin.gcm;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
-
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+
 import net.isana.OneSpeak.OneSpeakBaseService;
-import net.isana.OneSpeak.cordova.plugin.OneSpeakPlugin;
+
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 
 public class OneSpeakService extends OneSpeakBaseService {
 	// カスタムデータExtraキー
@@ -23,7 +21,7 @@ public class OneSpeakService extends OneSpeakBaseService {
 	 *         </p>
 	 */
 	public Class<?> bootFromNotificationActivityClass() {
-		return OfficialApplication.class;
+		return MainActivity.class;
 	}
 
 	/**
@@ -36,7 +34,7 @@ public class OneSpeakService extends OneSpeakBaseService {
 	 *         </p>
 	 */
 	public int applicationIcon() {
-		return R.drawable.ic_launcher;
+		return R.drawable.icon;
 	}
 
 	/**

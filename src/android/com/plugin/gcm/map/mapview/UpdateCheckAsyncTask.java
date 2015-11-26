@@ -1,8 +1,9 @@
-package jp.co.matsuyafoods.officialapp.dis.map.mapview;
+package com.plugin.gcm.map.mapview;
 
-import jp.co.matsuyafoods.officialapp.dis.map.parser.FeedUpDateParser;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.plugin.gcm.map.parser.FeedUpDateParser;
 /**
  * 更新日取得通信クラス
  * @author sugi

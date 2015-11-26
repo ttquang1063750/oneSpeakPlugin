@@ -1,15 +1,16 @@
-package jp.co.matsuyafoods.officialapp.dis.map.db;
+package com.plugin.gcm.map.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jp.co.matsuyafoods.officialapp.dis.map.entity.RequestRange;
-import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import com.plugin.gcm.map.entity.RequestRange;
+import com.plugin.gcm.map.entity.Shop;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * データベースの操作クラス

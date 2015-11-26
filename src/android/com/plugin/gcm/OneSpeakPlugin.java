@@ -1,17 +1,14 @@
 package com.plugin.gcm;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+
+import com.plugin.gcm.map.MyMapContent;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -31,13 +28,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class OneSpeakPlugin extends CordovaPlugin {
 
@@ -373,7 +375,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
 		} catch (NameNotFoundException e) {
 		}
 		return String.format("%s%s%s",
-				context.getString(R.string.onespeak_plugin_base_url),
+				context.getString(R.OneSpeakPlugin.onespeak_plugin_base_url),
 				appInfo.metaData.getString(ONESPEAK_ACCOUNT), PLUGIN_API_PATH);
 	}
 
@@ -388,7 +390,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
 	 */
 	private String createApiKey(String requestTime, String request) {
 		String apiKey = this.webView.getContext().getString(
-				R.string.onespeak_plugin_api_key);
+				R.OneSpeakPlugin.onespeak_plugin_api_key);
 		return getMD5DigestString(String.format("%s%s%s", requestTime, request,
 				apiKey));
 	}
@@ -541,7 +543,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
 	 *            Context
 	 * @param key
 	 *            キー
-	 * @param 値
+	 * @param value
 	 * */
 	private static void storeString(Context context, String key, String value) {
 		SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME,

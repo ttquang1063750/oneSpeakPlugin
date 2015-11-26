@@ -1,25 +1,5 @@
-package jp.co.matsuyafoods.officialapp.dis.map.mapview;
+package com.plugin.gcm.map.mapview;
 
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import jp.co.matsuyafoods.officialapp.dis.R;
-import jp.co.matsuyafoods.officialapp.dis.map.MyMapContent;
-import jp.co.matsuyafoods.officialapp.dis.map.db.DBHelper;
-import jp.co.matsuyafoods.officialapp.dis.map.db.DetailDAO;
-import jp.co.matsuyafoods.officialapp.dis.map.db.StoreDAO;
-import jp.co.matsuyafoods.officialapp.dis.map.entity.RequestRange;
-import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
-import jp.co.matsuyafoods.officialapp.dis.map.entity.ShopDetail;
-import jp.co.matsuyafoods.officialapp.dis.map.parser.FeedDetailParser;
-import jp.co.matsuyafoods.officialapp.dis.map.parser.FeedParser;
-
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.DroidGap;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -40,7 +20,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +46,25 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
 
+import org.apache.cordova.CordovaActivity;
+import org.apache.cordova.CordovaWebView;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import com.plugin.gcm.map.MyMapContent;
+import com.plugin.gcm.map.db.DBHelper;
+import com.plugin.gcm.map.db.DetailDAO;
+import com.plugin.gcm.map.db.StoreDAO;
+import com.plugin.gcm.map.entity.RequestRange;
+import com.plugin.gcm.map.entity.Shop;
+import com.plugin.gcm.map.entity.ShopDetail;
+import com.plugin.gcm.map.parser.FeedDetailParser;
+import com.plugin.gcm.map.parser.FeedParser;
+
 
 /**
  * マップを表示から操作する。
@@ -75,7 +73,7 @@ import com.google.android.gms.maps.model.VisibleRegion;
  * @author sugi
  *
  */
-public class MapMainActivity extends DroidGap implements OnClickListener, LocationListener, OnMyLocationChangeListener {
+public class MapMainActivity extends CordovaActivity implements OnClickListener, LocationListener, OnMyLocationChangeListener {
 
 	private static final String TAG = "MapMainActivity";
 	// ズームレベル
@@ -93,7 +91,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 	private GoogleMap     mMap;
 	private CreateMarker  createMarker;
 	private LinearLayout  footer;
-	private MapMenuDialog menuDialog;
+	private com.plugin.gcm.map.mapview.MapMenuDialog menuDialog;
 	// ロケーション
 	private LocationManager locationManager;
 	// SharedPreferences
@@ -106,7 +104,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 	// 吹き出しカウンター
 	private  int ball = 0;
 	// infoview関係
-	private ShopInfoView   infoView;
+	private com.plugin.gcm.map.mapview.ShopInfoView infoView;
 	private LayoutInflater inflater;
 	// マップの中心
 	private LatLng lastCenter;
@@ -119,7 +117,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 	// 更新dateの保持
 	private String mUpDate;
 	// データ問い合わせタスク
-	private UpdateCheckAsyncTask updateCheckAsyncTask;
+	private com.plugin.gcm.map.mapview.UpdateCheckAsyncTask updateCheckAsyncTask;
 	private LoadAsyncTask loadAsyncTask;
 	private Handler mHandler = null;
 	private boolean isLoadData = false;
@@ -306,7 +304,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 
 		// infoViewの追加
 		inflater = this.getLayoutInflater();
-		infoView = new ShopInfoView(this,inflater);
+		infoView = new com.plugin.gcm.map.mapview.ShopInfoView(this,inflater);
 		frameLayout.addView(infoView.infoView);
 
 		// SharedPreferencesの生成
@@ -341,7 +339,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 			
 			setProgressDialog();		
 		}
-		updateCheckAsyncTask = new UpdateCheckAsyncTask(this);
+		updateCheckAsyncTask = new com.plugin.gcm.map.mapview.UpdateCheckAsyncTask(this);
 		updateCheckAsyncTask.execute();
 	}
 	
@@ -490,7 +488,7 @@ public class MapMainActivity extends DroidGap implements OnClickListener, Locati
 			int dialogWidth = (int) (metrics.widthPixels * 0.9);
 
 			// ダイアログの生成
-			menuDialog = new MapMenuDialog(this, R.style.Theme_InfoDialog);
+			menuDialog = new com.plugin.gcm.map.mapview.MapMenuDialog(this, R.style.Theme_InfoDialog);
 
 			// 作成した画面サイズをダイアログにセット
 			WindowManager.LayoutParams lp = menuDialog.getWindow().getAttributes();

@@ -1,4 +1,4 @@
-package jp.co.matsuyafoods.officialapp.dis.map.db;
+package com.plugin.gcm.map.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

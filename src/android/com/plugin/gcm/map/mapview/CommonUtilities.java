@@ -1,4 +1,4 @@
-package jp.co.matsuyafoods.officialapp.dis.map.mapview;
+package com.plugin.gcm.map.mapview;
 
 import android.app.AlertDialog;
 import android.content.Context;

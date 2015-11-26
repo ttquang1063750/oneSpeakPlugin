@@ -1,13 +1,14 @@
-package jp.co.matsuyafoods.officialapp.dis;
+package com.plugin.gcm;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import net.isana.OneSpeak.OneSpeak;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import android.content.Context;
-import android.content.SharedPreferences;
 
 public class SetPushNotification extends CordovaPlugin {
 

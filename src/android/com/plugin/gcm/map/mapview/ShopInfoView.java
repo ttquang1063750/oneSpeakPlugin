@@ -1,13 +1,11 @@
-package jp.co.matsuyafoods.officialapp.dis.map.mapview;
+package com.plugin.gcm.map.mapview;
 
-import static jp.co.matsuyafoods.officialapp.dis.map.mapview.CommonUtilities.*;
-import jp.co.matsuyafoods.officialapp.dis.R;
-import jp.co.matsuyafoods.officialapp.dis.map.entity.ShopDetail;
+import static com.plugin.gcm.map.mapview.CommonUtilities.*;
+import com.plugin.gcm.map.entity.ShopDetail;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;

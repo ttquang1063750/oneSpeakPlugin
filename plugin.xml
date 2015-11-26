@@ -286,8 +286,8 @@
     <source-file src="src/android/com/plugin/gcm/map/MyMapContent.java" target-dir="src/com/plugin/gcm/map/"/>
     <source-file src="src/android/com/plugin/gcm/map/parser/FeedDetailParser.java"
                  target-dir="src/com/plugin/gcm/map/parser/"/>
-    <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java"
-                 target-dir="src/com/plugin/gcm/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedUpDateParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
 
 
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/arrow.png" target-dir="res/drawable-hdpi"/>
@@ -347,7 +347,6 @@
     <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/values/analytics.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>

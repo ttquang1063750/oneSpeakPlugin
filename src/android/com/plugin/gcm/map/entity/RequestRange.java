@@ -1,4 +1,4 @@
-package jp.co.matsuyafoods.officialapp.dis.map.entity;
+package com.plugin.gcm.map.entity;
 
 /**
  * ピン取得の為、DBリクエストするための要素クラス
