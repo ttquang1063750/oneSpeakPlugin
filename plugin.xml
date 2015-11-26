@@ -250,7 +250,7 @@
     </config-file>
 
     <!--<framework src="src/android/libs/google-play-services_lib" custom="true"/>-->
-    <dependency id="com.google.playservices" />
+    <dependency id="com.google.playservices" target-dir="libs/"/>
     <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
 
     <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
