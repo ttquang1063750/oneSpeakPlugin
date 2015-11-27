@@ -87,6 +87,7 @@ public class MyMapContent {
 	public void addView(LayoutInflater inflater, RelativeLayout layoutContents, Context context){
 
 		mContext = context;
+
 		// 引数チェック
 		if( inflater == null ){
 			log( LOG_TAG, "inflater is null." );
@@ -120,7 +121,6 @@ public class MyMapContent {
 	 *
 	 **********************************************************/
 	public void findView(View v){
-
 		((MapMainActivity)mContext).init(v);
 	}
 
@@ -129,7 +129,6 @@ public class MyMapContent {
 	 *
 	 **********************************************************/
 	public void init(){
-
 		mHandler = new Handler();
 		mMapVisibilityFlg = false;
 	}

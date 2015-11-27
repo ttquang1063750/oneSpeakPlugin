@@ -312,6 +312,7 @@
     <source-file src="src/android/com/plugin/gcm/map/res/layout/information.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/map_content.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
 
     <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
