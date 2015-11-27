@@ -6,6 +6,7 @@ import android.os.Bundle;
 import net.isana.OneSpeak.OneSpeakBaseService;
 
 import jp.co.matsuyafoods.officialapp.dis.MainActivity;
+import jp.co.matsuyafoods.officialapp.dis.R;
 
 public class OneSpeakService extends OneSpeakBaseService {
 	// カスタムデータExtraキー

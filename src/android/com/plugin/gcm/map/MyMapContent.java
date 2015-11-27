@@ -1,5 +1,5 @@
 package com.plugin.gcm.map;
-import com.plugin.gcm.map.mapview.MapMainActivity;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.plugin.gcm.map.mapview.MapMainActivity;
+
+import jp.co.matsuyafoods.officialapp.dis.R;
 
 /**
  * プラグインからの呼び出しクラス
@@ -132,7 +136,7 @@ public class MyMapContent {
 
 	/**********************************************************
 	 *　表示、非表示の指示を行う。
-	 * @param flg　 true:表示  false:非表示
+	 * param flg　 true:表示  false:非表示
 	 *
 	 **********************************************************/
 	public void mapContentVisibility( ){

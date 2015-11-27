@@ -1,12 +1,16 @@
 package com.plugin.gcm.map.mapview;
 
-import static com.plugin.gcm.map.mapview.CommonUtilities.*;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import jp.co.matsuyafoods.officialapp.dis.R;
+
+import static com.plugin.gcm.map.mapview.CommonUtilities.URL_CUSTOM;
+import static com.plugin.gcm.map.mapview.CommonUtilities.URL_USE_MAP;
 
 /**
  * Dialogを拡張したクラスです。

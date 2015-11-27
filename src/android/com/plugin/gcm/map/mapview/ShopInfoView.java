@@ -1,7 +1,5 @@
 package com.plugin.gcm.map.mapview;
 
-import static com.plugin.gcm.map.mapview.CommonUtilities.*;
-import com.plugin.gcm.map.entity.ShopDetail;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.plugin.gcm.map.entity.ShopDetail;
+
+import jp.co.matsuyafoods.officialapp.dis.R;
+
+import static com.plugin.gcm.map.mapview.CommonUtilities.URL_NAVITIME;
 
 /**
  * 詳細表示画面を構成するクラスです。

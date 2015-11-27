@@ -214,38 +214,6 @@
       </receiver>
 
       <!-- OneSpeakサービスの設定 -->
-      <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver">
-
-        <!-- 端末IDの登録 -->
-        <intent-filter>
-          <action android:name="net.isana.OneSpeak.intent.REGISTRATION"/>
-          <category android:name="$PACKAGE_NAME"/>
-        </intent-filter>
-
-        <!-- 現在位置の更新依頼 -->
-        <intent-filter>
-          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE"/>
-          <category android:name="$PACKAGE_NAME"/>
-        </intent-filter>
-
-        <!-- 現在位置の更新タイムアウト通知 -->
-        <intent-filter>
-          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE_TIMEOUT"/>
-          <category android:name="$PACKAGE_NAME"/>
-        </intent-filter>
-
-        <!-- 現在位置の更新完了通知 -->
-        <intent-filter>
-          <action android:name="net.isana.OneSpeak.intent.LOCATION_CHANGED"/>
-          <category android:name="$PACKAGE_NAME"/>
-        </intent-filter>
-
-        <!-- 端末の起動完了通知 -->
-        <intent-filter>
-          <action android:name="android.intent.action.BOOT_COMPLETED"/>
-        </intent-filter>
-      </receiver>
-      <service android:name="com.plugin.gcm.OneSpeakService"/>
       <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
     </config-file>
 
@@ -340,12 +308,10 @@
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_10.png"
                  target-dir="res/drawable-hdpi"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/activity_main.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/information.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/map_content.xml" target-dir="res/layout"/>
     <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
 
     <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
     <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>

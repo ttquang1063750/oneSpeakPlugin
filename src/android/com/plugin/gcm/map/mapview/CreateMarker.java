@@ -17,13 +17,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.plugin.gcm.map.entity.Shop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.plugin.gcm.map.entity.Shop;
+import jp.co.matsuyafoods.officialapp.dis.R;
 
 /**
  * マップのマーカー（ピン）のイベント管理と作成、

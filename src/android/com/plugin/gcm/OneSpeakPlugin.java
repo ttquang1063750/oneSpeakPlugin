@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import jp.co.matsuyafoods.officialapp.dis.R;
+
 public class OneSpeakPlugin extends CordovaPlugin {
 
 	/** SharedPreferencesキー：UUID */
@@ -375,7 +377,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
 		} catch (NameNotFoundException e) {
 		}
 		return String.format("%s%s%s",
-				context.getString(R.OneSpeakPlugin.onespeak_plugin_base_url),
+				context.getString(R.string.onespeak_plugin_base_url),
 				appInfo.metaData.getString(ONESPEAK_ACCOUNT), PLUGIN_API_PATH);
 	}
 
@@ -390,7 +392,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
 	 */
 	private String createApiKey(String requestTime, String request) {
 		String apiKey = this.webView.getContext().getString(
-				R.OneSpeakPlugin.onespeak_plugin_api_key);
+				R.string.onespeak_plugin_api_key);
 		return getMD5DigestString(String.format("%s%s%s", requestTime, request,
 				apiKey));
 	}
