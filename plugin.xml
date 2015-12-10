@@ -277,6 +277,7 @@
     <source-file src="src/android/com/plugin/gcm/map/parser/FeedUpDateParser.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/parser/"/>
 
 
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/arrow.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/balloon_overlay_unfocused1.9.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a1.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a2.png" target-dir="res/drawable-hdpi"/>
