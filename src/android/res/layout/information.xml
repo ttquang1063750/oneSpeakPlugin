@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/info_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/info_background"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/info_shopname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:text="店舗名"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:padding="5dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@color/info_text_field"
+                            android:orientation="vertical"
+                            android:padding="1dp" >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="2"
+                                    android:background="@color/info_background_item_title"
+                                    android:gravity="center"
+                                    android:text="住所"
+                                    android:textColor="@android:color/black" />
+
+                                <TextView
+                                    android:id="@+id/info_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@android:color/white"
+                                    android:gravity="left|center"
+                                    android:minLines="2"
+                                    android:paddingLeft="5dp"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="2"
+                                    android:background="@color/info_background_item_title"
+                                    android:gravity="center"
+                                    android:text="TEL"
+                                    android:textColor="@android:color/black" />
+
+                                <TextView
+                                    android:id="@+id/info_tel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@android:color/white"
+                                    android:gravity="left|center"
+                                    android:minLines="2"
+                                    android:paddingLeft="5dp"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="2"
+                                    android:background="@color/info_background_item_title"
+                                    android:gravity="center"
+                                    android:text="営業時間"
+                                    android:textColor="@android:color/black" />
+
+                                <TextView
+                                    android:id="@+id/info_openingHours"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@android:color/white"
+                                    android:gravity="left|center"
+                                    android:minLines="2"
+                                    android:paddingLeft="5dp"
+                                    android:textColor="@android:color/black" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/info_icon_linear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="vertical"
+                            android:visibility="visible" >
+
+                            <LinearLayout
+                                android:id="@+id/info_icon_top_linear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left" >
+
+                                <ImageView
+                                    android:id="@+id/info_icon1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_01"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:id="@+id/info_icon2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_02"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:id="@+id/info_icon3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_03"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/info_icon_under_linear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left" >
+
+                                <ImageView
+                                    android:id="@+id/info_icon4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_04"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:id="@+id/info_icon5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_05"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:id="@+id/info_icon6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/icons_06"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="95dp"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_weight="0.5" >
+
+                                    <TextView
+                                        android:layout_width="5dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/text_point" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="現在地や最寄り駅からのルート検索はこちら"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="4dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btn_root"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp"
+                                android:paddingRight="35dp"
+                                android:background="@drawable/button_custom_a2"
+                                android:text="カスタム検索"
+                                android:textColor="@android:color/black" />
+                        </LinearLayout>
+                        
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="95dp"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_weight="0.5" >
+
+                                    <TextView
+                                        android:layout_width="5dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/text_point" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_weight="1"
+                                        android:text="マップアプリを起動した経路表示はこちら"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="4dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btn_root_app"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp"
+                                android:paddingRight="35dp"
+                                android:background="@drawable/button_custom_a2"
+                                android:text="経路表示(マップ起動)"
+                                android:textColor="@android:color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_back_to_map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/button_b1"
+                        android:text="マップに戻る"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
