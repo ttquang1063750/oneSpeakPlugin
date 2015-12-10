@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,48 +19,49 @@ public final class CommonUtilities {
 	/**
 	 * カスタム検索用URL
 	 */
-	static final String URL_CUSTOM = "http://pkg.navitime.co.jp/matsuyafoods/";
+	public static final String URL_CUSTOM = "http://pkg.navitime.co.jp/matsuyafoods/";
 	
 	/**
 	 * 店舗マップについてURL
 	 */
-	static final String URL_USE_MAP = "http://www.matsuyafoods.co.jp/sp/shopsearch/map_help.html";
+	public static final String URL_USE_MAP = "http://www.matsuyafoods.co.jp/sp/shopsearch/map_help.html";
 
 	/**
 	 * 新店・一時閉店用URL
 	 */
-	static final String URL_NEWSHOP = "http://www.matsuyafoods.co.jp/sp/shopsearch/index.html";
+	public static final String URL_NEWSHOP = "http://www.matsuyafoods.co.jp/sp/shopsearch/index.html";
 	
 	/**
 	 * navitimeURL
 	 * 店舗IDとなる４桁を末尾に追加して利用
 	 */
-	static final String URL_NAVITIME = "http://pkg.navitime.co.jp/matsuyafoods/spot/detail?code=000000";
+	public static final String URL_NAVITIME = "http://pkg.navitime.co.jp/matsuyafoods/spot/detail?code=000000";
 
 	/**
 	 * 更新日チェックURL
 	 */
-	static final String URL_UPDATE  = "http://www.matsuyafoods.co.jp/map/update.xml";
+	public static final String URL_UPDATE  = "http://www.matsuyafoods.co.jp/map/update.xml";
 	
 	/**
 	 * Feedの取得用URL
 	 */
-	static final String URL_FEED = "http://www.matsuyafoods.co.jp/map/index.xml";
+	public static final String URL_FEED = "http://www.matsuyafoods.co.jp/map/index.xml";
 
 	/**
 	 * FeedDetailの取得用URL
 	 */
-	static final String URL_FEED_DETAIL = "http://www.matsuyafoods.co.jp/map/detail.xml";
+	public static final String URL_FEED_DETAIL = "http://www.matsuyafoods.co.jp/map/detail.xml";
 
 	/**
 	 * SharedPreferences項目：feed更新時の記録
 	 */
-	static final String SHAREDPREF_FEED_UP_DATE = "feed_up_date";
+	public static final String SHAREDPREF_FEED_UP_DATE = "feed_up_date";
+
 
 	/**
 	 * SharedPreferences項目：detail更新時の記録
 	 */
-	static final String SHAREDPREF_DETAIL_UP_DATE = "detail_up_data";
+	public static final String SHAREDPREF_DETAIL_UP_DATE = "detail_up_data";
 
 	/**
 	 * GPS設定変更時フラグ
@@ -76,7 +77,7 @@ public final class CommonUtilities {
 	 * 三鷹駅（東京） (三鷹駅)
 	 * 座標: 35.702708, 139.560831
 	 ***********************************/
-	static final LatLng MITAKA = new LatLng(35.702708, 139.560831);
+	public static final LatLng MITAKA = new LatLng(35.702708, 139.560831);
 
 	/**
 	 * Feedの保存期間の確認

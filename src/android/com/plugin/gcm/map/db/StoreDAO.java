@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.db;
+package jp.co.matsuyafoods.officialapp.dis.map.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.plugin.gcm.map.entity.RequestRange;
-import com.plugin.gcm.map.entity.Shop;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.co.matsuyafoods.officialapp.dis.map.entity.RequestRange;
+import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
 
 /**
  * データベースの操作クラス
@@ -115,8 +115,17 @@ public class StoreDAO {
 		Shop file = null;
 
 		String selection = "(latitude between " + range.getWestLat() + " and " + range.getEastLat() + ") and (longitude between " + range.getSouthLng() +" and " + range.getNorthLng() + ") ";
-		String orderBy = "(latitude -" + range.getcLatitude() + ")*(latitude - "+range.getcLatitude()+") + (longitude - " + range.getcLongitude() +")*(longitude - " + range.getcLongitude() + ")asc";
+		String orderBy = "(latitude -" + range.getcLatitude() + ")*(latitude - "+range.getcLatitude()+") + (longitude - " + range.getcLongitude() +")*(longitude - " + range.getcLongitude() + ") asc";
+
+
+//		String orderBy = "(latitude -35.70271365049957)*(latitude - 35.70271365049957) + (longitude - 139.56083089113235)*(longitude - 139.56083089113235) asc";
+//		String selection = "(latitude between 35.69566200046794 and 35.70975297061779) and (longitude between 139.55310579389334 and 139.56855565309525)  ";
 		Cursor c = db.query(TABLE_NAME_STORE, COLUMNS, selection, null, null, null, orderBy);
+
+		System.out.println("=====findStore:selection======");
+		System.out.println(selection);
+		System.out.println("=====findStore:orderBy======");
+		System.out.println(orderBy);
 
 		while(c.moveToNext()) {
 			file = new Shop();

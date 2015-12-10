@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,10 +7,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 import jp.co.matsuyafoods.officialapp.dis.R;
 
-import static com.plugin.gcm.map.mapview.CommonUtilities.URL_CUSTOM;
-import static com.plugin.gcm.map.mapview.CommonUtilities.URL_USE_MAP;
+import static jp.co.matsuyafoods.officialapp.dis.map.mapview.CommonUtilities.URL_CUSTOM;
+import static jp.co.matsuyafoods.officialapp.dis.map.mapview.CommonUtilities.URL_USE_MAP;
 
 /**
  * Dialogを拡張したクラスです。
@@ -67,7 +68,7 @@ public class MapMenuDialog extends Dialog implements OnClickListener{
 			if(!e.getText().toString().equals("")){
 
 				String s = e.getText().toString();
-				((MapMainActivity)context).toAddress(s);
+				((MainActivity)context).toAddress(s);
 				dismiss();
 			}
 
@@ -81,14 +82,14 @@ public class MapMenuDialog extends Dialog implements OnClickListener{
 		case R.id.btn_custom_search: // カスタム検索ボタン
 
 			// ブラウザ呼び出し(カスタム検索）
-			((MapMainActivity)context).openLink(URL_CUSTOM);
+			((MainActivity)context).openLink(URL_CUSTOM);
 
 			break;
 			
 		case R.id.btn_info_use_map:
 			
 			// ブラウザ呼び出し(マップの使い方)
-			((MapMainActivity)context).openLink(URL_USE_MAP);
+			((MainActivity)context).openLink(URL_USE_MAP);
 			
 			break;
 		}

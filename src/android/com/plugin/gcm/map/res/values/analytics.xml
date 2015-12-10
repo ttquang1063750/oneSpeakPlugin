@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
-<resources>
-  <string name="ga_trackingId">UA-19958896-3</string>
-  <bool name="ga_autoActivityTracking">false</bool>
-  <bool name="ga_debug">false</bool>
-  <integer name="ga_dispatchPeriod">10</integer>
-</resources>

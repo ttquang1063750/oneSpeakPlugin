@@ -191,89 +191,103 @@
       <meta-data android:name="net.isana.OneSpeak.realtimeMeasurementEnabled" android:value="yes"/>
 
       <!-- GCMサービスの設定 -->
-      <receiver android:name="net.isana.OneSpeak.OneSpeakReceiver"
-                android:permission="com.google.android.c2dm.permission.SEND">
+      <receiver
+          android:name="net.isana.OneSpeak.OneSpeakReceiver"
+          android:permission="com.google.android.c2dm.permission.SEND" >
 
         <!-- メッセージの受信 -->
         <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-          <category android:name="$PACKAGE_NAME"/>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <category android:name="$PACKAGE_NAME" />
         </intent-filter>
 
         <!-- GCM登録IDの受信 -->
         <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-          <category android:name="$PACKAGE_NAME"/>
+          <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+          <category android:name="$PACKAGE_NAME" />
         </intent-filter>
 
         <!-- リトライ処理用 -->
         <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.RETRY"/>
-          <category android:name="$PACKAGE_NAME"/>
+          <action android:name="com.google.android.c2dm.intent.RETRY" />
+          <category android:name="$PACKAGE_NAME" />
+        </intent-filter>
+
+        <!-- 端末IDの登録 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.REGISTRATION" />
+          <category android:name="$PACKAGE_NAME" />
+        </intent-filter>
+
+        <!-- 現在位置の更新依頼 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE" />
+          <category android:name="$PACKAGE_NAME" />
+        </intent-filter>
+
+        <!-- 現在位置の更新タイムアウト通知 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_UPDATE_TIMEOUT" />
+          <category android:name="$PACKAGE_NAME" />
+        </intent-filter>
+
+        <!-- 現在位置の更新完了通知 -->
+        <intent-filter>
+          <action android:name="net.isana.OneSpeak.intent.LOCATION_CHANGED" />
+          <category android:name="$PACKAGE_NAME" />
+        </intent-filter>
+
+        <!-- 端末の起動完了通知 -->
+        <intent-filter>
+          <action android:name="android.intent.action.BOOT_COMPLETED" />
         </intent-filter>
       </receiver>
-
-      <!-- OneSpeakサービスの設定 -->
-      <activity android:name="com.plugin.gcm.HandlerActivity" android:exported="true"/>
+      <service android:name="$PACKAGE_NAME.OneSpeakService" />
     </config-file>
 
     <!--<framework src="src/android/libs/google-play-services_lib" custom="true"/>-->
-    <dependency id="com.google.playservices" target-dir="libs/"/>
+    <dependency id="com.google.playservices" target-dir="libs/"  framework="true"/>
     <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
 
-    <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/HandlerActivity.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
-    <source-file src="src/android/com/plugin/gcm/SetPushNotification.java" target-dir="src/com/plugin/gcm/"/>
+    <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
+    <source-file src="src/android/com/plugin/gcm/MainActivity.txt" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
+    <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
+    <source-file src="src/android/com/plugin/gcm/SetPushNotification.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
 
 
-    <source-file src="src/android/com/plugin/gcm/map/db/DBHelper.java" target-dir="src/com/plugin/gcm/map/db/"/>
-    <source-file src="src/android/com/plugin/gcm/map/db/DetailDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
-    <source-file src="src/android/com/plugin/gcm/map/db/StoreDAO.java" target-dir="src/com/plugin/gcm/map/db/"/>
-    <source-file src="src/android/com/plugin/gcm/map/entity/RequestRange.java"
-                 target-dir="src/com/plugin/gcm/map/entity/"/>
-    <source-file src="src/android/com/plugin/gcm/map/entity/Shop.java" target-dir="src/com/plugin/gcm/map/entity/"/>
-    <source-file src="src/android/com/plugin/gcm/map/entity/ShopDetail.java"
-                 target-dir="src/com/plugin/gcm/map/entity/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/CommonUtilities.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/CreateMarker.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/DBfindAsyncTask.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/HttpConnectionsHelper.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/MapMainActivity.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/MapMenuDialog.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/ShopInfoView.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/mapview/UpdateCheckAsyncTask.java"
-                 target-dir="src/com/plugin/gcm/map/mapview/"/>
-    <source-file src="src/android/com/plugin/gcm/map/MyMapContent.java" target-dir="src/com/plugin/gcm/map/"/>
-    <source-file src="src/android/com/plugin/gcm/map/parser/FeedDetailParser.java"
-                 target-dir="src/com/plugin/gcm/map/parser/"/>
-    <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
-    <source-file src="src/android/com/plugin/gcm/map/parser/FeedUpDateParser.java" target-dir="src/com/plugin/gcm/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/DBHelper.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/db/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/DetailDAO.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/db/"/>
+    <source-file src="src/android/com/plugin/gcm/map/db/StoreDAO.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/db/"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/entity/RequestRange.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/entity/"/>
+    <source-file src="src/android/com/plugin/gcm/map/entity/Shop.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/entity/"/>
+    <source-file src="src/android/com/plugin/gcm/map/entity/ShopDetail.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/entity/"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/mapview/CommonUtilities.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/CreateMarker.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/DBfindAsyncTask.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/HttpConnectionsHelper.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/MapMenuDialog.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/ShopInfoView.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+    <source-file src="src/android/com/plugin/gcm/map/mapview/UpdateCheckAsyncTask.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/mapview/"/>
+
+    <source-file src="src/android/com/plugin/gcm/map/MyMapContent.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedDetailParser.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedParser.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/parser/"/>
+    <source-file src="src/android/com/plugin/gcm/map/parser/FeedUpDateParser.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/map/parser/"/>
 
 
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/arrow.png" target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/balloon_overlay_unfocused1.9.png"
-                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/balloon_overlay_unfocused1.9.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a1.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a2.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_a3.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_b1_1.png" target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1_on.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2_on.png"
-                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer1_on.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/button_footer2_on.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/common_ic07.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_01.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_02.png" target-dir="res/drawable-hdpi"/>
@@ -287,52 +301,37 @@
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b04.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b05.png" target-dir="res/drawable-hdpi"/>
     <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/icons_b06.png" target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_01.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_02.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_03.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_04.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_05.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_06.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_07.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_08.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_09.png"
-                 target-dir="res/drawable-hdpi"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_10.png"
-                 target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_01.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_02.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_03.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_04.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_05.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_06.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_07.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_08.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_09.png" target-dir="res/drawable-hdpi"/>
+    <source-file src="src/android/com/plugin/gcm/map/res/drawable-hdpi/map_pin_shadow_10.png" target-dir="res/drawable-hdpi"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/information.xml" target-dir="res/layout"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/map_content.xml" target-dir="res/layout"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/menu.xml" target-dir="res/layout"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/layout/root_view.xml" target-dir="res/layout"/>
+    <source-file src="src/android/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
+    <source-file src="src/android/res/layout/information.xml" target-dir="res/layout"/>
+    <source-file src="src/android/res/layout/map_content.xml" target-dir="res/layout"/>
+    <source-file src="src/android/res/layout/menu.xml" target-dir="res/layout"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/values/color.xml" target-dir="res/values"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/values/dimens.xml" target-dir="res/values"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/values/styles.xml" target-dir="res/values"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/values/themes_info_dialog.xml" target-dir="res/values"/>
+    <source-file src="src/android/res/values/color.xml" target-dir="res/values"/>
+    <source-file src="src/android/res/values/dimens.xml" target-dir="res/values"/>
+    <source-file src="src/android/res/values/OneSpeakPlugin.xml" target-dir="res/values"/>
+    <source-file src="src/android/res/values/styles.xml" target-dir="res/values"/>
+    <source-file src="src/android/res/values/themes_info_dialog.xml" target-dir="res/values"/>
 
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/balloon_overlay_bg_selector.xml"
-                 target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a1.xml" target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a2.xml" target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_a3.xml" target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_a.xml"
-                 target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/button_custom_footer_b.xml"
-                 target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/frame_info.xml" target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/info_table_stroke_line.xml"
-                 target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/line.xml" target-dir="res/drawable"/>
-    <source-file src="src/android/com/plugin/gcm/map/res/drawable/map_footer.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/balloon_overlay_bg_selector.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/button_custom_a1.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/button_custom_a2.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/button_custom_a3.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/button_custom_footer_a.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/button_custom_footer_b.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/frame_info.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/info_table_stroke_line.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/line.xml" target-dir="res/drawable"/>
+    <source-file src="src/android/res/drawable/map_footer.xml" target-dir="res/drawable"/>
   </platform>
 </plugin>

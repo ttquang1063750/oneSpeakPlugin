@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.entity;
+package jp.co.matsuyafoods.officialapp.dis.map.entity;
 
 /**
  * 店舗データの geter seter クラス

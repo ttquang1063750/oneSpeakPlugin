@@ -1,17 +1,13 @@
-package com.plugin.gcm.map;
+package jp.co.matsuyafoods.officialapp.dis.map;
 
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.plugin.gcm.map.mapview.MapMainActivity;
-
-import jp.co.matsuyafoods.officialapp.dis.R;
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 
 /**
  * プラグインからの呼び出しクラス
@@ -25,7 +21,7 @@ public class MyMapContent {
 	private boolean mLogFlg = true;	// trueの場合、logを出力する。
 
 	// view関連
-	private LinearLayout mLayoutMain;	//
+	private View mLayoutMain;	//
 	//	private TextView	 mTextView;		// 仮のTextView
 
 	// 領域を表示/非表示を判定するフラグ
@@ -46,6 +42,7 @@ public class MyMapContent {
 
 	public void setmMapVisibilityFlg( final boolean mMapVisibilityFlg) {
 		this.mMapVisibilityFlg = mMapVisibilityFlg;
+		this.mapContentVisibility();
 	}
 
 	/**********************************************
@@ -79,26 +76,20 @@ public class MyMapContent {
 
 	/**********************************************
 	 * viewを追加する。
-	 * @param inflater
 	 * @param layoutContents
 	 * @param context
 	 *
 	 *********************************************/
-	public void addView(LayoutInflater inflater, RelativeLayout layoutContents, Context context){
+	public void addView(ViewGroup layoutContents, Context context, View view){
 
 		mContext = context;
-
 		// 引数チェック
-		if( inflater == null ){
-			log( LOG_TAG, "inflater is null." );
-			return;
-		}
 		if( layoutContents == null ){
 			log( LOG_TAG, "layoutContents is null." );
 			return;
 		}
 		// layoutの読み込み
-		mLayoutMain = (LinearLayout)inflater.inflate( R.layout.map_content, null );
+		mLayoutMain = view;
 
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
@@ -121,7 +112,7 @@ public class MyMapContent {
 	 *
 	 **********************************************************/
 	public void findView(View v){
-		((MapMainActivity)mContext).init(v);
+		((MainActivity)mContext).init(v);
 	}
 
 	/**********************************************************
@@ -156,7 +147,7 @@ public class MyMapContent {
 						public void run() {
 							try{
 								if( mMapVisibilityFlg ){
-									((MapMainActivity)mContext).mapingStart();
+									((MainActivity)mContext).mapingStart();
 									Log.d(LOG_TAG, "表示");
 									mLayoutMain.setVisibility(View.VISIBLE);
 								}
@@ -178,21 +169,21 @@ public class MyMapContent {
 	 * 画面が表示されたときの処理
 	 *********************************************************/
 	public void onResume(){
-			mapContentVisibility();
+		mapContentVisibility();
 	}
 
 	/**********************************************************
 	 * 画面がかくれた時の処理
 	 *********************************************************/
 	public void onPause(){
-			mapContentVisibility();
+		mapContentVisibility();
 	}
 
 	/**********************************************************
 	 * 画面が破棄された時の処理
 	 *********************************************************/
 	public void onDestroy(){
-			mLayoutMain = null;
-			mHandler    = null;
+		mLayoutMain = null;
+		mHandler    = null;
 	}
 }

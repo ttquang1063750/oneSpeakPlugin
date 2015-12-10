@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.content.Context;
 import android.os.Build;
@@ -17,14 +17,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.plugin.gcm.map.entity.Shop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 import jp.co.matsuyafoods.officialapp.dis.R;
+import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
 
 /**
  * マップのマーカー（ピン）のイベント管理と作成、
@@ -135,6 +136,7 @@ public class CreateMarker implements InfoWindowAdapter, OnInfoWindowClickListene
 		options.title(shop.getId());
 		options.snippet(shop.getShopinfo());
 		// アイコン(マップ上に表示されるピン)
+//		options.icon(BitmapDescriptorFactory.defaultMarker(getCategoryIsIcon(shop)));
 		options.icon(BitmapDescriptorFactory.fromResource(getCategoryIsIcon(shop)));
 
 		// mapにマーカーの追加
@@ -211,7 +213,7 @@ public class CreateMarker implements InfoWindowAdapter, OnInfoWindowClickListene
 //		Log.d(TAG, "#getInfoWindow() call");
 
 		if(!CommonUtilities.BALL_COUNT){
-			((com.plugin.gcm.map.mapview.MapMainActivity)context).ballCountOff();
+			((MainActivity)context).ballCountOff();
 		}
 
 		// 吹き出しView を作成
@@ -230,7 +232,7 @@ public class CreateMarker implements InfoWindowAdapter, OnInfoWindowClickListene
 	public void onInfoWindowClick(Marker paramMarker) {
 //		Log.d(TAG, "#onInfoWindowClick() call title = "+paramMarker.getTitle());
 
-		((com.plugin.gcm.map.mapview.MapMainActivity)context).onInfoView(shop);
+		((MainActivity)context).onInfoView(shop);
 	}
 
 	// markerクリックコールバック

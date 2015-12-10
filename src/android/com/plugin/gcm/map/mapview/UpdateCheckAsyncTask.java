@@ -1,9 +1,10 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.plugin.gcm.map.parser.FeedUpDateParser;
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
+import jp.co.matsuyafoods.officialapp.dis.map.parser.FeedUpDateParser;
 /**
  * 更新日取得通信クラス
  * @author sugi
@@ -59,11 +60,11 @@ public class UpdateCheckAsyncTask extends AsyncTask<Void, Void, String>{
 	
 		if(success){
 			// 成功時の呼び出し
-			((MapMainActivity)context).loadSuccess(mUpDateString);
+			((MainActivity)context).loadSuccess(mUpDateString);
 		}
 		else {
 			// 失敗時の呼び出し
-			((MapMainActivity)context).loadError();
+			((MainActivity)context).loadError();
 		}
 	}
 	

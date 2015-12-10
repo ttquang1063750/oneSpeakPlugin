@@ -1,16 +1,16 @@
-package com.plugin.gcm;
+package jp.co.matsuyafoods.officialapp.dis;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.plugin.gcm.OneSpeakPlugin;
 
 import net.isana.OneSpeak.OneSpeakBaseService;
 
-import jp.co.matsuyafoods.officialapp.dis.MainActivity;
-import jp.co.matsuyafoods.officialapp.dis.R;
-
 public class OneSpeakService extends OneSpeakBaseService {
 	// カスタムデータExtraキー
-	public static final String EXTRA_KEY_CUSTOM_DATA = "com.plugin.gcm.OneSpeakService.EXTRA.CUSTOM_DATA";
+	public static final String EXTRA_KEY_CUSTOM_DATA = "jp.co.matsuyafoods.officialapp.dis.OneSpeakService.EXTRA.CUSTOM_DATA";
 
 	/**
 	 * 通知から起動するアクティビティクラスの取得
@@ -70,6 +70,7 @@ public class OneSpeakService extends OneSpeakBaseService {
 	 *            </p>
 	 */
 	public void onReceiveCustomData(Context context, Bundle customData) {
+		Log.d("get PushNotification", customData.getString("event_id"));
 //		try {
 //			String eventId = null;
 //			eventId = customData.getString("event_id");

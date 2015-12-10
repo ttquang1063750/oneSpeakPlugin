@@ -1,17 +1,17 @@
-package com.plugin.gcm.map.parser;
-
-import android.util.Log;
-
-import com.plugin.gcm.map.entity.Shop;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+package jp.co.matsuyafoods.officialapp.dis.map.parser;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import android.util.Log;
 
 /**
  * 取得したFeedXMLをパースするクラスです。

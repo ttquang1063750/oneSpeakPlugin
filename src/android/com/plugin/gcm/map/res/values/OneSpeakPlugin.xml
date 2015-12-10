@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="onespeak_plugin_api_key" translatable="en">fe40e77e8c10da15d0e54a0ad9fb8029</string>
-    <!-- 【debug】 -->
-    <!-- <string name="onespeak_plugin_base_url" translatable="en">https://test.onespeak.jp/</string> -->
-    <!-- 【release】 -->
-    <string name="onespeak_plugin_base_url" translatable="en">https://www5.onespeak.jp/</string>
-</resources>

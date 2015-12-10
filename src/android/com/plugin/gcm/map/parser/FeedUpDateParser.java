@@ -1,13 +1,13 @@
-package com.plugin.gcm.map.parser;
+package jp.co.matsuyafoods.officialapp.dis.map.parser;
 
-import android.util.Log;
+import java.io.IOException;
+import java.io.StringReader;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.IOException;
-import java.io.StringReader;
+import android.util.Log;
 
 public class FeedUpDateParser {
 	

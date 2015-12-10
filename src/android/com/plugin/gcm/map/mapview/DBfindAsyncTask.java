@@ -1,23 +1,24 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.plugin.gcm.map.db.DBHelper;
-import com.plugin.gcm.map.db.StoreDAO;
-import com.plugin.gcm.map.entity.RequestRange;
-import com.plugin.gcm.map.entity.Shop;
-
 import java.util.List;
+
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
+import jp.co.matsuyafoods.officialapp.dis.map.db.DBHelper;
+import jp.co.matsuyafoods.officialapp.dis.map.db.StoreDAO;
+import jp.co.matsuyafoods.officialapp.dis.map.entity.RequestRange;
+import jp.co.matsuyafoods.officialapp.dis.map.entity.Shop;
 
 /**
  * データベースからデータ取得するクラスです
  * @author sugi
  *
  */
-class DBfindAsyncTask extends AsyncTask<Void, Void, List<Shop>>{
+public class DBfindAsyncTask extends AsyncTask<Void, Void, List<Shop>>{
 
 	private RequestRange range;
 
@@ -68,7 +69,7 @@ class DBfindAsyncTask extends AsyncTask<Void, Void, List<Shop>>{
 		db.close();
 		dbHelper = null;
 		if(result.size() > 0){
-			((com.plugin.gcm.map.mapview.MapMainActivity)context).putOverLay(result);
+			((MainActivity)context).putOverLay(result);
 		}
 	}
 	@Override

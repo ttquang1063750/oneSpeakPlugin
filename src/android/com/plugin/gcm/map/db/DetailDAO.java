@@ -1,11 +1,11 @@
-package com.plugin.gcm.map.db;
+package jp.co.matsuyafoods.officialapp.dis.map.db;
 
+import jp.co.matsuyafoods.officialapp.dis.map.entity.ShopDetail;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
-
-import com.plugin.gcm.map.entity.ShopDetail;
+import android.util.Log;
 
 public class DetailDAO {
 

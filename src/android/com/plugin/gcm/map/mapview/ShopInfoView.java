@@ -1,4 +1,4 @@
-package com.plugin.gcm.map.mapview;
+package jp.co.matsuyafoods.officialapp.dis.map.mapview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.plugin.gcm.map.entity.ShopDetail;
-
+import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 import jp.co.matsuyafoods.officialapp.dis.R;
+import jp.co.matsuyafoods.officialapp.dis.map.entity.ShopDetail;
 
-import static com.plugin.gcm.map.mapview.CommonUtilities.URL_NAVITIME;
+import static jp.co.matsuyafoods.officialapp.dis.map.mapview.CommonUtilities.URL_NAVITIME;
 
 /**
  * 詳細表示画面を構成するクラスです。
@@ -246,10 +246,10 @@ public class ShopInfoView implements OnClickListener{
 			ScrollView scroll= (ScrollView)infoView.findViewById(R.id.info_scroll);
 			scroll.scrollTo(0, 0);
 			// メインレイアウトの表示
-			if(((MapMainActivity)context).mainLayout == false){
+			if(((MainActivity)context).mainLayout == false){
 
-				((MapMainActivity)context).getFooterLayout().setVisibility(View.VISIBLE);
-				((MapMainActivity)context).mainLayout = true;
+				((MainActivity)context).getFooterLayout().setVisibility(View.VISIBLE);
+				((MainActivity)context).mainLayout = true;
 			}
 			break;
 
@@ -258,7 +258,7 @@ public class ShopInfoView implements OnClickListener{
 			// URL作成
 			String url = URL_NAVITIME + shop.getNavitimeId();
 			// ブラウザ呼び出し(カスタム検索）
-			((MapMainActivity)context).openLink(url);
+			((MainActivity)context).openLink(url);
 			break;
 			
 		case R.id.btn_root_app:

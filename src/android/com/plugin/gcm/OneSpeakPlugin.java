@@ -8,9 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 
-import com.plugin.gcm.map.MyMapContent;
-import com.plugin.gcm.map.mapview.MapMainActivity;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.http.HttpResponse;
@@ -44,6 +41,7 @@ import java.util.UUID;
 
 import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 import jp.co.matsuyafoods.officialapp.dis.R;
+import jp.co.matsuyafoods.officialapp.dis.map.MyMapContent;
 
 public class OneSpeakPlugin extends CordovaPlugin {
     private MainActivity _mainView;
@@ -51,6 +49,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * SharedPreferencesキー：UUID
      */
     private static final String PREFERENCE_KEY_UUID = "uuid";
+    private static final String VERSION = "version";
     /**
      * SharedPreferencesファイル名
      */
@@ -149,14 +148,20 @@ public class OneSpeakPlugin extends CordovaPlugin {
     /**
      * {@inheritDoc}
      */
+    JSONArray _args;
+    CallbackContext _callbackContext;
     @Override
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        _args = args;
+        _callbackContext = callbackContext;
+        System.out.println("======ONE_SPEAK====");
         if (action.equals("customDataUpdateWithCommand")) {
             // ユーザ属性更新用処理
             cordova.getThreadPool().execute(new Runnable() {
                 @Override
                 public void run() {
-                    customDataUpdate(args, callbackContext);
+                    System.out.println("======customDataUpdate====");
+                    customDataUpdate(_args, _callbackContext);
                 }
             });
             return true;
@@ -176,23 +181,15 @@ public class OneSpeakPlugin extends CordovaPlugin {
             JSONObject mapParam = args.getJSONObject(0);
             String mapAction = mapParam.getString("map");
 
-            MapMainActivity mapMain = MapMainActivity.getInstance();
-            MyMapContent mapContent = mapMain.getMyMapContent();
-            mapMain.load();
+            MyMapContent mapContent = MyMapContent.getInstance();
 
-            if (mapAction == MAP_ON) {
+            if (mapAction.equals(MAP_ON)) {
                 // 表示非表示フラグをtrueに変更
                 mapContent.setmMapVisibilityFlg(true);
-                // 画面更新
-                mapContent.mapContentVisibility();
-                mapContent.init();
-            } else if (mapAction == MAP_OFF) {
+            } else if (mapAction.equals(MAP_OFF)) {
                 // 表示非表示フラグをfalseに変更
                 mapContent.setmMapVisibilityFlg(false);
-                // 画面更新
-                mapContent.mapContentVisibility();
             }
-            mapContent.init();
             return true;
         }
         // Atlas21 追加コード end
@@ -492,6 +489,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
     public static void checkUUID(Context context) {
         // 既にUUIDが存在しているか確認を行う。
         String uuid = loadString(context, PREFERENCE_KEY_UUID);
+        System.out.println("GET UUID:"+uuid);
         if (nullOrEmpty(uuid)) {
             // UUIDが存在しなければ生成して保存する。
             storeString(context, PREFERENCE_KEY_UUID, UUID.randomUUID()
@@ -506,10 +504,10 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * @param customData カスタムデータ
      */
     public static void setUpCustomData(Context context, Bundle customData) {
-        customData.putString(PREFERENCE_KEY_UUID,
-                loadString(context, PREFERENCE_KEY_UUID));
-        customData.putString("version",
-                getVersionName(context));
+        String uuid = loadString(context, PREFERENCE_KEY_UUID);
+        String version = getVersionName(context);
+        customData.putString(PREFERENCE_KEY_UUID, uuid);
+        customData.putString(VERSION, version);
     }
 
     /**
@@ -577,10 +575,9 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * @author m.iwamori
      */
     private JSONObject getPreferenceIntValue() {
-        Context ctx = cordova.getActivity().getApplicationContext();
+        Context ctx = MainActivity.getInstance().getApplicationContext();
         // 端末から値を取得します。
-        SharedPreferences preferences = ctx.getSharedPreferences(
-                ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
+        SharedPreferences preferences = ctx.getSharedPreferences(ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
         // 項目が登録されていない場合は、デフォルト値としてONESPEAK_NOT_CHECKEDを返却します。
         String tmp = preferences.getString(ONESPEAK_CUSTOMID, null);
         // データがなかった場合の処理
@@ -603,10 +600,9 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * @author m.iwamori
      */
     private void removePreferenceIntValue() {
-        Context ctx = cordova.getActivity().getApplicationContext();
+        Context ctx = MainActivity.getInstance().getApplicationContext();
         // 端末から値を削除します。
-        SharedPreferences preferences = ctx.getSharedPreferences(
-                ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
+        SharedPreferences preferences = ctx.getSharedPreferences(ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(ONESPEAK_CUSTOMID);
         editor.commit();
