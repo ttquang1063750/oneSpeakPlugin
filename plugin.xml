@@ -245,9 +245,8 @@
       <service android:name="$PACKAGE_NAME.OneSpeakService" />
     </config-file>
 
-    <!--<framework src="src/android/libs/google-play-services_lib" custom="true"/>-->
-    <dependency id="com.google.playservices" target-dir="libs/"  framework="true"/>
-    <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/"/>
+    <!--<dependency id="com.google.playservices" target-dir="libs/"  framework="true"/>-->
+    <source-file src="src/android/libs/libOneSpeak.jar" target-dir="libs/" framework="true"/>
 
     <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
     <source-file src="src/android/com/plugin/gcm/MainActivity.txt" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
