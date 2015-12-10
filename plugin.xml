@@ -251,7 +251,7 @@
 
     <source-file src="src/android/com/plugin/gcm/OneSpeakService.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
     <source-file src="src/android/com/plugin/gcm/MainActivity.txt" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
-    <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
+    <source-file src="src/android/com/plugin/gcm/OneSpeakPlugin.java" target-dir="src/com/plugin/gcm/"/>
     <source-file src="src/android/com/plugin/gcm/SetPushNotification.java" target-dir="src/jp/co/matsuyafoods/officialapp/dis/"/>
 
 
