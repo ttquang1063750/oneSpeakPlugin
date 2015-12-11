@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
+import com.plugin.gcm.OneSpeakPlugin;
+
+import net.isana.OneSpeak.OneSpeak;
 
 import org.apache.cordova.CordovaActivity;
 
@@ -81,7 +85,7 @@ import jp.co.matsuyafoods.officialapp.dis.map.parser.FeedParser;
  */
 public class MainActivity extends CordovaActivity implements OnClickListener, LocationListener, OnMyLocationChangeListener {
 
-    private static final String TAG = "MapMainActivity";
+    private static final String TAG = "MainActivity";
     // ズームレベル
     private static final int ZOOM = 15;
     // ロケーションタイプ
@@ -141,8 +145,55 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         return (ViewGroup)cordovaWebView.appView.getView().getRootView();
     }
 
+
+    //====ONE SPEAK START 1=====
+
+    // OneSpeakのIntentScheme定義
+    public static final String INTENE_SCHEME = "OneSpeak";
+
+    // Intent
+    Intent intent;
+
+    // //////////////////// プッシュ通知のオプション値保存用 //////////////////////////////////
+    private static final String ONESPEAK_CUSTOMDATA = "onespeak_custom_data";
+    private static final String ONESPEAK_CUSTOMID = "event_id";
+
+    // /////////////////// プッシュ通知確認ダイアログ用にサンプルとして追加 /////////////////////
+    private static final String ONESPEAK_PREFERENCE_FILE = "couponapp_onespeak_pref";
+    private static final String ONESPEAK_FLG = "onespeakflg";
+    private static final int ONESPEAK_NOT_CHECKED = 0;
+//    private static final int ONESPEAK_OK = 1;
+    private static final int ONESPEAK_NG = 2;
+
+    private int getPreferenceIntValue(String key) {
+        // 端末から値を取得します。
+        SharedPreferences preferences = getSharedPreferences(
+                ONESPEAK_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        // 項目が登録されていない場合は、デフォルト値としてONESPEAK_NOT_CHECKEDを返却します。
+        return preferences.getInt(key, ONESPEAK_NOT_CHECKED);
+    }
+
+    private void storePreferenceValue(String key, int value) {
+        // 端末に値を保存します。
+        SharedPreferences preferences = getSharedPreferences(
+                ONESPEAK_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    void startOneSpeak() {
+        // OneSpeakを開始します。
+        OneSpeakPlugin.checkUUID(this);
+        OneSpeak.startOneSpeak(getApplicationContext(), intent);
+        OneSpeak.registOneSpeak(this);
+    }
+
+    //===ONS SPEAK END 1=====
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         // キーボード出現時レイアウトの指定
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
@@ -192,7 +243,98 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
 
         myMapCotnent.addView(rootLayout, MainActivity.getInstance(), view);
 
+        //======ONE SPEAK START 2====
+
+        intent = getIntent();
+
+        // OneSpeakサービス起動
+        startOneSpeak();
+
+        // /////////////////// プッシュ通知確認ダイアログ用にサンプルとして追加 /////////////////////
+        // 端末OneSpeak許可状態を取得します。
+        int onespeakflg = getPreferenceIntValue(ONESPEAK_FLG);
+        if (onespeakflg == ONESPEAK_NOT_CHECKED) {
+            // 未チェックの場合はダイアログを表示します。
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            // タイトルを設定します。
+            builder.setTitle("通知確認");
+            // メッセージを設定します。
+            builder.setMessage("このアプリはPush通知を使用しています。通知を許可しますか？" + "\n" + "設定は「その他」より変更できます。" );
+            // 許可しないボタンの設定
+            builder.setNegativeButton("許可しない",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // ダイアログを閉じ、許可しない設定を端末に保存します。
+                            dialog.dismiss();
+                            storePreferenceValue(ONESPEAK_FLG, ONESPEAK_NG);
+                            OneSpeak.setPushEnabled(getApplicationContext(),
+                                    false);
+                        }
+                    });
+            // 許可するボタンの設定
+            builder.setPositiveButton("許可する",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // ダイアログを閉じ、許可するを端末に保存します。
+                            dialog.dismiss();
+                            storePreferenceValue(ONESPEAK_FLG, ONESPEAK_NG);
+                            OneSpeak.setPushEnabled(getApplicationContext(),
+                                    true);
+                            // 開始処理を実行します。
+                            // startOneSpeak();
+                        }
+                    });
+            builder.setCancelable(false);
+            builder.create();
+            builder.show();
+        }
+        // /////////////////// プッシュ通知確認ダイアログ用にサンプルとして追加 /////////////////////
+
+        String scheme = intent.getScheme();
+        // OneSpeakのintentの場合
+        if (scheme != null && INTENE_SCHEME.equals(scheme)) {
+            this.createParam();
+            // 呼び出し先URLにパラメータを付与
+        }
+
+        //======ONE SPEAK END 2======
+
     }
+
+    //======ONE SPEAK START 3======
+
+    // 遷移先URLに付与するパラメータ作成
+    private void createParam() {
+
+        try {
+            Bundle extras = intent.getExtras();
+            String eventId;
+
+            if (extras != null) {
+                // OneSpeakで設定したカスタム値を取得
+                Bundle customBundle = extras
+                        .getBundle(OneSpeak.ONESPEAK_EXTRA_CUSTOM_DATA);
+                if (customBundle != null) {
+                    eventId = customBundle.getString(ONESPEAK_CUSTOMID);
+
+                    if (eventId != null && !"".equals(eventId)) {
+                        // オプション値を保存
+                        SharedPreferences preferences = getSharedPreferences(
+                                ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString(ONESPEAK_CUSTOMID, eventId);
+                        editor.apply();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.d("PushNotification", e.toString());
+        }
+    }
+
+    //======ONE SPEAK END 3======
 
     public MyMapContent getMyMapContent(){
         return MyMapContent.getInstance();
@@ -361,7 +503,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
 
         if (dialog != null) dialog.dismiss();
 
-        if (isLoadData == false) {
+        if (!isLoadData) {
 
             setProgressDialog();
         }
@@ -378,7 +520,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         mNetNotificationView.setVisibility(View.VISIBLE);
 
         if (dialog != null) dialog.dismiss();
-        if (isLoadData == false) errorDialog();
+        if (!isLoadData) errorDialog();
 
         setLocations();
     }
@@ -388,7 +530,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
      */
     private void setLocations() {
 
-        if (isSetCheck == false) {
+        if (!isSetCheck) {
             isFast = true;
             // リスナーのセット
             setLocation();
@@ -418,7 +560,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         if (CommonUtilities.checkFeed(sharedprf, upDateString)) {
             isLoadData = true;
             setLocations();
-        } else if (isLoadData == false) {
+        } else if (!isLoadData) {
 
             loadTask();
         }
@@ -451,7 +593,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
     /**
      * InAppBrowser でリンクを呼び出す
      *
-     * @param url
+     * @param url out site url
      */
     public void openLink(String url) {
 
@@ -544,7 +686,6 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
                     createMarker.getMarker().get(ball).showInfoWindow();
                     // カウンターの更新
                     ball++;
-                    ;
 
                     // 吹き出し制御終了
                     CommonUtilities.BALL_COUNT = false;
@@ -631,7 +772,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
     /**
      * 初回GPS取得で位置を表示
      *
-     * @param location
+     * @param location using current location or default
      */
     private void setFastLocation(Location location) {
 
@@ -801,7 +942,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
     public void toAddress(String s) {
 
         Geocoder geocoder = new Geocoder(this, Locale.JAPAN);
-        List<Address> list = null;
+        List<Address> list;
         try {
             list = geocoder.getFromLocationName(s, 1);
 
@@ -847,7 +988,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
      */
     public void onInfoView(Shop shop) {
 
-        if (mainLayout == true) {
+        if (mainLayout) {
 
             footer.setVisibility(View.GONE);
             mainLayout = false;
@@ -862,7 +1003,6 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         ShopDetail s = dao.findShopDetail(shop.getId());
         db.close();
         dbHelper = null;
-        dao = null;
 
         infoView.infoView.setVisibility(View.VISIBLE);
 
@@ -938,7 +1078,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
             HttpConnectionsHelper httpHelper = new HttpConnectionsHelper();
 
             // delete失敗の場合処理をしない
-            if (success == false) return "";
+            if (!success) return "";
 
             // Feedの取得
             feedXml = httpHelper.sendGet(CommonUtilities.URL_FEED);
@@ -958,8 +1098,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
             FeedDetailParser detailParser = new FeedDetailParser(detailXml);
 
 
-            if (parser.init() == true && detailParser.init() == true
-                    && parser.getList().size() > 0 && detailParser.getList().size() > 0) {
+            if (parser.init() && detailParser.init() && parser.getList().size() > 0 && detailParser.getList().size() > 0) {
 
                 list = parser.getList();
                 detailList = detailParser.getList();
@@ -979,7 +1118,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
 
                     for (ShopDetail shop : detailList) {
 
-                        if (success == false || detailDAO.insertInfo(shop) == DetailDAO.ERROR) {
+                        if (!success || detailDAO.insertInfo(shop) == DetailDAO.ERROR) {
                             success = false;
                             break;
                         } else {
@@ -1012,13 +1151,13 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
             Editor e = sharedprf.edit();
 
             // DBエラー、通信エラーが起きた時
-            if (success == false || feedXml.startsWith(HttpConnectionsHelper.ERROR) || detailXml.startsWith(HttpConnectionsHelper.ERROR)) {
+            if (!success || feedXml.startsWith(HttpConnectionsHelper.ERROR) || detailXml.startsWith(HttpConnectionsHelper.ERROR)) {
                 errorDialog();
                 mNetNotificationView.setVisibility(View.VISIBLE);
             } else {
                 // 更新した時間を記録
                 e.putString(CommonUtilities.SHAREDPREF_FEED_UP_DATE, mUpDate);
-                e.commit();
+                e.apply();
                 isLoadData = true;
                 mNetNotificationView.setVisibility(View.GONE);
 

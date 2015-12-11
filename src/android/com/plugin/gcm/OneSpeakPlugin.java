@@ -44,7 +44,6 @@ import jp.co.matsuyafoods.officialapp.dis.R;
 import jp.co.matsuyafoods.officialapp.dis.map.MyMapContent;
 
 public class OneSpeakPlugin extends CordovaPlugin {
-    private MainActivity _mainView;
     /**
      * SharedPreferencesキー：UUID
      */
@@ -128,9 +127,9 @@ public class OneSpeakPlugin extends CordovaPlugin {
     // 値が存在しない場合のメッセージ
     private static final String NO_DATA = "値がありません。";
     // 例外時のエラーメッセージ
-    private static final String EXCEPTION = "例外：";
+//    private static final String EXCEPTION = "例外：";
     // 存在しないメソッド名が実行されようとした時のエラーメッセージ
-    private static final String ERR_MSG_UNKNOWN_METHOD = "unknown method.";
+//    private static final String ERR_MSG_UNKNOWN_METHOD = "unknown method.";
 
 
     public static final String ACTION_MAP_CONTROLLER = "mapController";
@@ -160,7 +159,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
             cordova.getThreadPool().execute(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("======customDataUpdate====");
+                    System.out.println("======customDataUpdateWithCommand====");
                     customDataUpdate(_args, _callbackContext);
                 }
             });
@@ -168,11 +167,14 @@ public class OneSpeakPlugin extends CordovaPlugin {
             // Atlas21 追加コード start
         } else if (GET_DATA.equals(action)) {
             // updatePreferenceValueメソッドの呼び出し
+            System.out.println("======customDataUpdate====");
             JSONObject return_data = getPreferenceIntValue();
             if (return_data == null) {
                 callbackContext.error(NO_DATA);
+                System.out.println("======customDataUpdate:NO_DATA====");
             } else {
                 callbackContext.success(return_data);
+                System.out.println("======customDataUpdate:" + return_data + "====");
                 removePreferenceIntValue();
             }
             return true;
@@ -236,7 +238,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
             }
             callbackContext.success();
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -563,7 +565,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     // Atlas21 追加コード start
@@ -575,7 +577,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * @author m.iwamori
      */
     private JSONObject getPreferenceIntValue() {
-        Context ctx = MainActivity.getInstance().getApplicationContext();
+        Context ctx = MainActivity.getInstance();
         // 端末から値を取得します。
         SharedPreferences preferences = ctx.getSharedPreferences(ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
         // 項目が登録されていない場合は、デフォルト値としてONESPEAK_NOT_CHECKEDを返却します。
@@ -600,7 +602,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
      * @author m.iwamori
      */
     private void removePreferenceIntValue() {
-        Context ctx = MainActivity.getInstance().getApplicationContext();
+        Context ctx = MainActivity.getInstance();
         // 端末から値を削除します。
         SharedPreferences preferences = ctx.getSharedPreferences(ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
