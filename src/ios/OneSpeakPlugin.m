@@ -52,6 +52,7 @@ CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK 
 
 //Load feed
     - (void)feed:(CDVInvokedUrlCommand*)command {
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
   NSString* url = [[command.arguments objectAtIndex:0] objectForKey:@"url"];
 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
 
@@ -59,12 +60,12 @@ NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWit
 
 NSError *requestError = nil;
 NSURLResponse *urlResponse = nil;
-
+CDVPluginResult* result = nil;
 
 NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
 NSString* customData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
 
-CDVPluginResult* result = nil;
+
 if (requestError == nil) {
   result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:customData];
 }else{
@@ -72,6 +73,7 @@ if (requestError == nil) {
 }
 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 
+});
 }
 
 //Show or hide map
