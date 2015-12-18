@@ -27,11 +27,11 @@
       </feature>
     </config-file>
 
-    <source-file src="src/ios/AppDelegate.h"/>
-    <source-file src="src/ios/AppDelegate.m"/>
+    <source-file src="src/ios/AppDelegate-h.txt"/>
+    <source-file src="src/ios/AppDelegate-m.txt"/>
 
-    <source-file src="src/ios/MainViewController.h"/>
-    <source-file src="src/ios/MainViewController.m"/>
+    <source-file src="src/ios/MainViewController-h.txt"/>
+    <source-file src="src/ios/MainViewController-m.txt"/>
 
 
     <header-file src="src/ios/OneSpeakPlugin.h"/>
