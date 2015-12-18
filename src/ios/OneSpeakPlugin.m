@@ -74,6 +74,13 @@ if (requestError == nil) {
 
 }
 
+//Show or hide map
+    - (void)mapController:(CDVInvokedUrlCommand*)command {
+  NSString* mapStatus = [[command.arguments objectAtIndex:0] objectForKey:@"map"];
+CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:mapStatus];
+[self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
 - (void)customDataUpdateWithCommand:(CDVInvokedUrlCommand*)command {
   if (_updCmmand != nil) {
     _updCmmand =  nil;
