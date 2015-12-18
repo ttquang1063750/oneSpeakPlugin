@@ -162,7 +162,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
     private static final String ONESPEAK_PREFERENCE_FILE = "couponapp_onespeak_pref";
     private static final String ONESPEAK_FLG = "onespeakflg";
     private static final int ONESPEAK_NOT_CHECKED = 0;
-//    private static final int ONESPEAK_OK = 1;
+    //    private static final int ONESPEAK_OK = 1;
     private static final int ONESPEAK_NG = 2;
 
     private int getPreferenceIntValue(String key) {
@@ -179,7 +179,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
                 ONESPEAK_PREFERENCE_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(key, value);
-        editor.apply();
+        editor.commit();
     }
 
     void startOneSpeak() {
@@ -325,7 +325,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
                                 ONESPEAK_CUSTOMDATA, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString(ONESPEAK_CUSTOMID, eventId);
-                        editor.apply();
+                        editor.commit();
                     }
                 }
             }
@@ -1157,7 +1157,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
             } else {
                 // 更新した時間を記録
                 e.putString(CommonUtilities.SHAREDPREF_FEED_UP_DATE, mUpDate);
-                e.apply();
+                e.commit();
                 isLoadData = true;
                 mNetNotificationView.setVisibility(View.GONE);
 
