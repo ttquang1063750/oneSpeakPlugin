@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 
+import net.isana.OneSpeak.OneSpeak;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.http.HttpResponse;
@@ -42,6 +44,7 @@ import java.util.UUID;
 import jp.co.matsuyafoods.officialapp.dis.MainActivity;
 import jp.co.matsuyafoods.officialapp.dis.R;
 import jp.co.matsuyafoods.officialapp.dis.map.MyMapContent;
+import jp.co.matsuyafoods.officialapp.dis.map.mapview.HttpConnectionsHelper;
 
 public class OneSpeakPlugin extends CordovaPlugin {
     /**
@@ -136,6 +139,30 @@ public class OneSpeakPlugin extends CordovaPlugin {
     public static final String MAP_ON = "map_on";
     public static final String MAP_OFF = "map_off";
 
+    // 許可する場合のアクション定数
+    private static final String PUSH_ALLOW = "push_allow";
+    // 許可しない場合のアクション定数
+    private static final String PUSH_FORBID = "push_forbid";
+    // Push通知の設定を確認するアクション定数
+    private static final String PUSH_CONFIRM = "push_confirm";
+    private static final String FEED = "feed";
+
+    // 各フラグ定数
+    private static final String ONESPEAK_PREFERENCE_FILE = "couponapp_onespeak_pref";
+    private static final String ONESPEAK_FLG = "onespeakflg";
+    private static final int ONESPEAK_OK = 1;
+    private static final int ONESPEAK_NG = 2;
+
+    // 設定変更が完了したメッセージ
+    private static final String SUCCESS_UPDATE_MESSAGE = "設定を変更しました。";
+    // 例外時のエラーメッセージ
+    private static final String EXCEPTION = "例外：";
+    // 存在しないメソッド名が実行されようとした時のエラーメッセージ
+    private static final String ERR_MSG_UNKNOWN_METHOD = "unknown method.";
+
+    private static final String CHECK_OP_NO_THROW = "checkOpNoThrow";
+    private static final String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
+
     /** Atlas21 追加コード end */
 
     /**
@@ -147,12 +174,14 @@ public class OneSpeakPlugin extends CordovaPlugin {
     /**
      * {@inheritDoc}
      */
-    JSONArray _args;
-    CallbackContext _callbackContext;
+    private static JSONArray _args;
+    private static CallbackContext _callbackContext;
+
     @Override
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        _args = args;
-        _callbackContext = callbackContext;
+
+        OneSpeakPlugin._args = args;
+        OneSpeakPlugin._callbackContext = callbackContext;
         System.out.println("======ONE_SPEAK====");
         if (action.equals("customDataUpdateWithCommand")) {
             // ユーザ属性更新用処理
@@ -160,7 +189,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
                 @Override
                 public void run() {
                     System.out.println("======customDataUpdateWithCommand====");
-                    customDataUpdate(_args, _callbackContext);
+                    customDataUpdate(OneSpeakPlugin._args, OneSpeakPlugin._callbackContext);
                 }
             });
             return true;
@@ -192,6 +221,53 @@ public class OneSpeakPlugin extends CordovaPlugin {
                 // 表示非表示フラグをfalseに変更
                 mapContent.setmMapVisibilityFlg(false);
             }
+            return true;
+        } else if (PUSH_ALLOW.equals(action)) {
+
+            // updatePreferenceValueメソッドの呼び出し
+            updatePreferenceValue(ONESPEAK_FLG, ONESPEAK_OK);
+            // OneSpeakサーバへの更新処理
+            updatePushEnabled(true);
+            callbackContext.success(SUCCESS_UPDATE_MESSAGE);
+
+            return true;
+
+        } else if (PUSH_FORBID.equals(action)) {
+            // updatePreferenceValueメソッドの呼び出し
+            updatePreferenceValue(ONESPEAK_FLG, ONESPEAK_NG);
+            // OneSpeakサーバへの更新処理
+            updatePushEnabled(false);
+            callbackContext.success(SUCCESS_UPDATE_MESSAGE);
+            return true;
+        } else if (PUSH_CONFIRM.equals(action)) {
+            Context ctx = MainActivity.getInstance();
+            String pushFlag = String.valueOf(OneSpeak.getPushEnabled(ctx));
+            callbackContext.success(pushFlag);
+            return true;
+        }else if (FEED.equals(action)){
+            cordova.getThreadPool().execute(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject mapParam = null;
+                    try {
+                        mapParam = OneSpeakPlugin._args.getJSONObject(0);
+                        String URL = mapParam.getString("url");
+                        HttpConnectionsHelper httpHelper = new HttpConnectionsHelper();
+
+                        // Feedの取得
+                        String feedXml = httpHelper.sendGet(URL);
+
+                        // 正常取得できたらDetailを取得
+                        if (feedXml != null && !feedXml.startsWith(HttpConnectionsHelper.ERROR)) {
+                            OneSpeakPlugin._callbackContext.success(feedXml);
+                        } else {
+                            OneSpeakPlugin._callbackContext.error(HttpConnectionsHelper.ERROR);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             return true;
         }
         // Atlas21 追加コード end
@@ -491,7 +567,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
     public static void checkUUID(Context context) {
         // 既にUUIDが存在しているか確認を行う。
         String uuid = loadString(context, PREFERENCE_KEY_UUID);
-        System.out.println("GET UUID:"+uuid);
+        System.out.println("GET UUID:" + uuid);
         if (nullOrEmpty(uuid)) {
             // UUIDが存在しなければ生成して保存する。
             storeString(context, PREFERENCE_KEY_UUID, UUID.randomUUID()
@@ -565,7 +641,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key, value);
-        editor.apply();
+        editor.commit();
     }
 
     // Atlas21 追加コード start
@@ -573,8 +649,7 @@ public class OneSpeakPlugin extends CordovaPlugin {
     /**
      * SharedPreferencesに保存されているプッシュ通知のCustomID（アナリティクス用event_id）を取得する。
      *
-     * @return　JSONObject
-     * @author m.iwamori
+     * @return　JSONObject return json
      */
     private JSONObject getPreferenceIntValue() {
         Context ctx = MainActivity.getInstance();
@@ -609,5 +684,22 @@ public class OneSpeakPlugin extends CordovaPlugin {
         editor.remove(ONESPEAK_CUSTOMID);
         editor.commit();
     }
-    // Atlas21 追加コード end
+
+    // SharedPreferencesの更新処理
+    private void updatePreferenceValue(String key, int value) {
+        Context ctx = MainActivity.getInstance();
+        // 端末に値を保存します。
+        SharedPreferences preferences = ctx.getSharedPreferences(
+                ONESPEAK_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+    // OneSpeakサーバへ通知設定の更新処理
+    private void updatePushEnabled(boolean flag) {
+        Context ctx = MainActivity.getInstance();
+        // 端末に値を保存します。
+        OneSpeak.setPushEnabled(ctx, flag);
+    }
 }

@@ -17,6 +17,11 @@ OneSpeakPlugin.prototype.mapController = function(successCallback, errorCallback
     cordova.exec(successCallback, errorCallback, "OneSpeakPlugin", "mapController", array_options);
 };
 
+OneSpeakPlugin.prototype.feed = function(successCallback, errorCallback, url) {
+    if (errorCallback == null) { errorCallback = function() {}}
+    cordova.exec(successCallback, errorCallback, "OneSpeakPlugin",  "feed", [{url:url}]);
+};
+
 //-------------------------------------------------------------------
 
 if(!window.plugins) {
