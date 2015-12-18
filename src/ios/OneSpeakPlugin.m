@@ -50,6 +50,30 @@ CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK 
 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
+//Load feed
+    - (void)feed:(CDVInvokedUrlCommand*)command {
+  NSString* url = [[command.arguments objectAtIndex:0] objectForKey:@"url"];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+
+[request setHTTPMethod: @"GET"];
+
+NSError *requestError = nil;
+NSURLResponse *urlResponse = nil;
+
+
+NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+NSString* customData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
+
+CDVPluginResult* result = nil;
+if (requestError == nil) {
+  result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:customData];
+}else{
+  result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [requestError localizedDescription]];
+}
+[self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+
+}
+
 - (void)customDataUpdateWithCommand:(CDVInvokedUrlCommand*)command {
   if (_updCmmand != nil) {
     _updCmmand =  nil;

@@ -1,8 +1,5 @@
 //
 //  OneSpeakPlugin.h
-//  CouponApp
-//
-//  Created by fujise on 2013/05/23.
 //
 //
 
