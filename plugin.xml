@@ -314,6 +314,7 @@
     <source-file src="src/android/res/layout/balloon_overlay.xml" target-dir="res/layout"/>
     <source-file src="src/android/res/layout/information.xml" target-dir="res/layout"/>
     <source-file src="src/android/res/layout/map_content.xml" target-dir="res/layout"/>
+    <source-file src="src/android/res/layout/coupon_webview.xml" target-dir="res/layout"/>
     <source-file src="src/android/res/layout/menu.xml" target-dir="res/layout"/>
 
     <source-file src="src/android/res/values/color.xml" target-dir="res/values"/>

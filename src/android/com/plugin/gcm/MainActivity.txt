@@ -28,6 +28,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -189,6 +192,85 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         OneSpeak.registOneSpeak(this);
     }
 
+    private static View couponView;
+    private static WebView couponWebView;
+    private static String couponUrl = "";
+    private static LinearLayout alertNetworkCoupon;
+
+    void loadCouponView(){
+        ViewGroup rootLayout = MainActivity.getRootLayout();
+        couponView = inflater.inflate(R.layout.coupon_webview, rootLayout, false);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        couponView.setLayoutParams(params);
+        couponWebView = (WebView) couponView.findViewById(R.id.webView);
+        alertNetworkCoupon = (LinearLayout) couponView.findViewById(R.id.net_notification);
+        WebSettings settings = couponWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAppCacheEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(false);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        couponWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                super.shouldOverrideUrlLoading(view, url);
+                openLink(url);
+                return true;
+            }
+        });
+        TextView reloadView = (TextView) couponView.findViewById(R.id.reload_view);
+        reloadView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                couponWebView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!couponUrl.isEmpty()) {
+                            couponWebView.loadUrl(couponUrl);
+                        }
+                    }
+                });
+            }
+        });
+        couponView.setVisibility(View.INVISIBLE);
+        rootLayout.addView(couponView);
+    }
+
+
+    public static void toggleAlertNetWorkCoupon(final boolean isShow){
+        alertNetworkCoupon.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isShow) {
+                    alertNetworkCoupon.setVisibility(View.VISIBLE);
+                } else {
+                    alertNetworkCoupon.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+    public static void showCouponView(final boolean isShow,final String url){
+        couponWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                //Load only one time
+                if(!url.isEmpty() && couponUrl.isEmpty()){
+                    couponUrl = url;
+                    couponWebView.loadUrl(couponUrl);
+                }
+
+                if (isShow) {
+                    couponView.setVisibility(View.VISIBLE);
+                } else {
+                    couponView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+
     //===ONS SPEAK END 1=====
 
     @Override
@@ -220,7 +302,7 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
         switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this.getBaseContext()) )
         {
             case ConnectionResult.SUCCESS:
-                Toast.makeText(MainActivity.getInstance(), "SERVICE SUCCESS", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.getInstance(), "SERVICE SUCCESS", Toast.LENGTH_SHORT).show();
                 mapView = (MapView) view.findViewById(R.id.mapView);
                 mapView.onCreate(MainActivity.getInstance().getIntent().getExtras());
                 // Gets to GoogleMap from the MapView and does initialization stuff
@@ -233,18 +315,17 @@ public class MainActivity extends CordovaActivity implements OnClickListener, Lo
                 }
                 break;
             case ConnectionResult.SERVICE_MISSING:
-                Toast.makeText(MainActivity.getInstance(), "SERVICE MISSING", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.getInstance(), "SERVICE MISSING", Toast.LENGTH_SHORT).show();
                 break;
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                Toast.makeText(MainActivity.getInstance(), "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.getInstance(), "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
                 break;
             default: Toast.makeText(MainActivity.getInstance(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(this.getBaseContext()), Toast.LENGTH_SHORT).show();
         }
 
         myMapCotnent.addView(rootLayout, MainActivity.getInstance(), view);
-
         //======ONE SPEAK START 2====
-
+        loadCouponView();
         intent = getIntent();
 
         // OneSpeakサービス起動

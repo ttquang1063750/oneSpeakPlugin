@@ -146,6 +146,8 @@ public class OneSpeakPlugin extends CordovaPlugin {
     // Push通知の設定を確認するアクション定数
     private static final String PUSH_CONFIRM = "push_confirm";
     private static final String FEED = "feed";
+    private static final String SHOW_COUPON = "showCoupon";
+    private static final String COUPON_NETWORK = "couponNetwork";
 
     // 各フラグ定数
     private static final String ONESPEAK_PREFERENCE_FILE = "couponapp_onespeak_pref";
@@ -182,13 +184,12 @@ public class OneSpeakPlugin extends CordovaPlugin {
 
         OneSpeakPlugin._args = args;
         OneSpeakPlugin._callbackContext = callbackContext;
-        System.out.println("======ONE_SPEAK====");
+        MainActivity.showCouponView(false, "");
         if (action.equals("customDataUpdateWithCommand")) {
             // ユーザ属性更新用処理
             cordova.getThreadPool().execute(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("======customDataUpdateWithCommand====");
                     customDataUpdate(OneSpeakPlugin._args, OneSpeakPlugin._callbackContext);
                 }
             });
@@ -196,14 +197,11 @@ public class OneSpeakPlugin extends CordovaPlugin {
             // Atlas21 追加コード start
         } else if (GET_DATA.equals(action)) {
             // updatePreferenceValueメソッドの呼び出し
-            System.out.println("======customDataUpdate====");
             JSONObject return_data = getPreferenceIntValue();
             if (return_data == null) {
                 callbackContext.error(NO_DATA);
-                System.out.println("======customDataUpdate:NO_DATA====");
             } else {
                 callbackContext.success(return_data);
-                System.out.println("======customDataUpdate:" + return_data + "====");
                 removePreferenceIntValue();
             }
             return true;
@@ -268,6 +266,20 @@ public class OneSpeakPlugin extends CordovaPlugin {
                     }
                 }
             });
+            return true;
+        }else  if(SHOW_COUPON.equals(action)){
+            JSONObject mapParam = OneSpeakPlugin._args.getJSONObject(0);
+            String url = mapParam.getString("url");
+            MainActivity.showCouponView(true, url);
+            // 正常取得できたらDetailを取得
+            OneSpeakPlugin._callbackContext.success(url);
+            return true;
+        }else if(COUPON_NETWORK.equals(action)){
+            JSONObject mapParam = OneSpeakPlugin._args.getJSONObject(0);
+            Boolean status = mapParam.getBoolean("status");
+            MainActivity.toggleAlertNetWorkCoupon(status);
+            // 正常取得できたらDetailを取得
+            OneSpeakPlugin._callbackContext.success(mapParam);
             return true;
         }
         // Atlas21 追加コード end
